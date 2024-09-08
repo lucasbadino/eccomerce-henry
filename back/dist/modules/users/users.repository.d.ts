@@ -1,7 +1,5 @@
-import { UsersRepository } from "./users.repository";
-export declare class UserService {
-    private readonly usersRepository;
-    constructor(usersRepository: UsersRepository);
+export declare class UsersRepository {
+    private users;
     getUsers(): {
         id: number;
         email: string;
