@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { ProductService } from "./products.service";
 import { CreateProductDto, Product } from "./productsDto/productsDto";
 import { Response } from "express";
+import { AuthGuard } from "../auth/authGuard/auth.guard";
 
 @Controller('products')
 export class ProductController {
@@ -21,6 +22,7 @@ export class ProductController {
         const product = this.productService.getPruductsById(Number(id));
         return res.status(200).send(product);
     }
+    @UseGuards(AuthGuard)
     @Post()
     @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
     createProduct(@Body() CreateProductDto: CreateProductDto, @Res() res: Response) {
@@ -31,6 +33,7 @@ export class ProductController {
         });
 
     }
+    @UseGuards(AuthGuard)
     @Put(":id")
     @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
     updateProduct(@Param("id") id: number, @Body() CreateProductDto: CreateProductDto, @Res() res: Response) {
@@ -40,6 +43,7 @@ export class ProductController {
             producto: updatedProduct
         });
     }
+    @UseGuards(AuthGuard)
     @Delete(":id")
     deleteProduct(@Param("id") id: number, @Res() res: Response) {
         const deletedProduct = this.productService.deleteProduct(Number(id));

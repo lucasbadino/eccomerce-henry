@@ -54,6 +54,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getUsers", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Req)()),
@@ -71,6 +72,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "createUser", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Put)(":id"),
     (0, common_1.UsePipes)(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })),
     __param(0, (0, common_1.Param)("id")),
@@ -81,6 +83,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "updateUser", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Res)()),

@@ -16,6 +16,7 @@ exports.ProductController = void 0;
 const common_1 = require("@nestjs/common");
 const products_service_1 = require("./products.service");
 const productsDto_1 = require("./productsDto/productsDto");
+const auth_guard_1 = require("../auth/authGuard/auth.guard");
 let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
@@ -69,6 +70,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "getProductsById", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)(),
     (0, common_1.UsePipes)(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })),
     __param(0, (0, common_1.Body)()),
@@ -78,6 +80,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "createProduct", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Put)(":id"),
     (0, common_1.UsePipes)(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })),
     __param(0, (0, common_1.Param)("id")),
@@ -88,6 +91,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "updateProduct", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Res)()),

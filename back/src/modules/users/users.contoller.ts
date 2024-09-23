@@ -14,7 +14,7 @@ export class UserController {
     getUsers() {
         return this.userService.getUsers();
     }
-
+    @UseGuards(AuthGuard)
     @Get(":id")
     getUserById(@Res() res: Response, @Req() req: Request) {
         const { id } = req.params
@@ -28,6 +28,7 @@ export class UserController {
         const id = this.userService.CreateUser(CreateUserDto);
         return res.status(201).json(`Usuario creado con exito con el id: ${id}`);
     }
+    @UseGuards(AuthGuard)
     @Put(":id")
     @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
     updateUser(@Param("id") idNumber: number, @Body() UpdateUserDto: UpdateUserDto, @Res() res: Response) {
@@ -35,6 +36,7 @@ export class UserController {
         const { id } = updatedUser
         return res.status(201).json(`Usuario actualizado con exito: ${id}`);
     }
+    @UseGuards(AuthGuard)
     @Delete(":id")
     deleteUser(@Param("id") idNumber: number, @Res() res: Response) {
         const deletedUser = this.userService.deleteUser(Number(idNumber));
