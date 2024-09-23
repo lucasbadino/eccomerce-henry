@@ -37,8 +37,37 @@ let ProductsRepository = class ProductsRepository {
             }
         ];
     }
-    getProducts() {
-        return this.products;
+    getProducts(page, limit) {
+        return this.products.slice((page - 1) * limit, page * limit);
+    }
+    getProductsById(id) {
+        const product = this.products.find((prod) => prod.id == id);
+        return product;
+    }
+    createProduct(product) {
+        const id = this.products.length + 1;
+        this.products = [...this.products, { id, ...product }];
+        const newProduct = this.products.find(prod => prod.id == id);
+        return newProduct;
+    }
+    updateProduct(id, product) {
+        this.products = this.products.map((e) => {
+            if (e.id == id) {
+                return {
+                    ...e,
+                    ...product
+                };
+            }
+            return e;
+        });
+        const updatedProduct = this.products.find(prod => prod.id == id);
+        console.log(updatedProduct);
+        return updatedProduct;
+    }
+    deleteProduct(id) {
+        const deletedProduct = this.products.find(prod => prod.id == id);
+        this.products = this.products.filter((e) => e.id != id);
+        return deletedProduct;
     }
 };
 exports.ProductsRepository = ProductsRepository;

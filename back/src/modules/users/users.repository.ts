@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { User } from "./usersDto/usersDto";
 
 @Injectable()
 export class UsersRepository {
@@ -35,6 +36,34 @@ export class UsersRepository {
         }
     ]
     getUsers() {
-        return this.users;
+        const users = this.users.map(({ password, ...rest }) => ({ ...rest }));
+        return users;
+    }
+    getUserById(id: number) {
+        const { password, ...rest } = this.users.find((user) => user.id === id);;
+        return { ...rest };
+    }
+    createUser(user: Omit<User, "id">) {
+        const id = this.users.length + 1
+        this.users = [...this.users, { id, ...user }]
+        return id
+    }
+    uptadeUser(id: number, user: Omit<User, "id">) {
+        const updatedUsers = this.users.map((us) => {
+            if (us.id === id) {
+                return { ...us, ...user };
+            }
+            return us;
+        });
+        const updatedUser = updatedUsers.find((us) => us.id === id);
+
+        this.users = updatedUsers;
+
+        return updatedUser;
+    }
+    deleteUser(id: number) {
+        const deletedUser = this.users.find((user) => user.id === id)
+        this.users = this.users.filter((us) => us.id !== id);
+        return deletedUser;
     }
 }

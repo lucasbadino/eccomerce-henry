@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Product } from "./productsDto/productsDto";
 
 @Injectable()
 export class ProductsRepository {
@@ -31,7 +32,40 @@ export class ProductsRepository {
         }
     ]
 
-    getProducts() {
-        return this.products;
+    getProducts(page: number, limit: number) {
+        return this.products.slice((page - 1) * limit, page * limit);
+    }
+
+    getProductsById(id: number) {
+        const product = this.products.find(
+            (prod) => prod.id == id
+        )
+        return product;
+    }
+    createProduct(product: Omit<Product, "id">) {
+        const id = this.products.length + 1
+        this.products = [...this.products, {id, ...product}];        
+        const newProduct = this.products.find(prod => prod.id == id);
+        return newProduct;
+    }
+    updateProduct(id: number, product: Omit<Product, "id">) {
+        this.products = this.products.map((e) => {
+            if (e.id == id) {
+                return {
+                    ...e,
+                    ...product
+                };
+            }
+            return e;
+        });
+        const updatedProduct = this.products.find(prod => prod.id == id);
+        console.log(updatedProduct);
+        return updatedProduct;
+    }
+    deleteProduct(id: number) {
+        const deletedProduct = this.products.find(prod => prod.id == id);
+        this.products = this.products.filter((e) => e.id != id)
+        return deletedProduct;
+
     }
 }

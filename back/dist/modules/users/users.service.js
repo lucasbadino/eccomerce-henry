@@ -19,6 +19,18 @@ let UserService = class UserService {
     getUsers() {
         return this.usersRepository.getUsers();
     }
+    getUserById(id) {
+        return this.usersRepository.getUserById(id);
+    }
+    CreateUser(user) {
+        return this.usersRepository.createUser(user);
+    }
+    updateUser(id, user) {
+        return this.usersRepository.uptadeUser(id, user);
+    }
+    deleteUser(id) {
+        return this.usersRepository.deleteUser(id);
+    }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
