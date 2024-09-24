@@ -61,7 +61,6 @@ let ProductsRepository = class ProductsRepository {
             return e;
         });
         const updatedProduct = this.products.find(prod => prod.id == id);
-        console.log(updatedProduct);
         return updatedProduct;
     }
     deleteProduct(id) {

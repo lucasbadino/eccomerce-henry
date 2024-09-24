@@ -11,12 +11,29 @@ const common_1 = require("@nestjs/common");
 const auth_module_1 = require("./modules/auth/auth.module");
 const users_module_1 = require("./modules/users/users.module");
 const products_module_1 = require("./modules/products/products.module");
+const typeorm_1 = require("@nestjs/typeorm");
+const config_1 = require("@nestjs/config");
+const data_source_1 = require("./config/data-source");
+const seeds_module_1 = require("./seeders/seeds.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, users_module_1.UserModule, products_module_1.ProductModule],
+        imports: [
+            auth_module_1.AuthModule,
+            users_module_1.UserModule,
+            products_module_1.ProductModule,
+            seeds_module_1.SeedsModule,
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+                load: [data_source_1.postgresConfig],
+            }),
+            typeorm_1.TypeOrmModule.forRootAsync({
+                inject: [config_1.ConfigService],
+                useFactory: (configService) => configService.get('typeorm')
+            }),
+        ],
         controllers: [],
         providers: [],
     })
