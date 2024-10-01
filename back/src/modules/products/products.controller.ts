@@ -1,56 +1,75 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Put, Query, Res, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { ProductService } from "./products.service";
-import { CreateProductDto, Product } from "./productsDto/productsDto";
 import { Response } from "express";
 import { AuthGuard } from "../auth/authGuard/auth.guard";
+import { Products } from "./products.entity";
+import { CreateProductDto, UpdateProductDto } from "./productsDto/productsDto";
 
 @Controller('products')
 export class ProductController {
     constructor(private readonly productService: ProductService) { }
     @Get()
-    getProducts(
+    async getProducts(
         @Res() res: Response,
         @Query("limit") limit: number = 5,
         @Query("page") page: number = 1,
 
     ) {
-        const products = this.productService.getPruducts(page, limit);
-        return res.status(200).send(products);
+        try {
+            const products = await this.productService.getPruducts(page, limit);
+            return res.status(200).send(products);
+        } catch (error) {
+            throw new HttpException('Error al obtener los productos', HttpStatus.NOT_FOUND);
+        }
     }
     @Get(":id")
-    getProductsById(@Param("id") id: number, @Res() res: Response) {
-        const product = this.productService.getPruductsById(Number(id));
-        return res.status(200).send(product);
+    async getProductsById(@Param("id", ParseUUIDPipe) id: string, @Res() res: Response) {
+        try {
+            const product = await this.productService.getPruductsById(id);
+            return res.status(200).send(product);
+        } catch (error) {
+            throw new HttpException('Error al obtener el producto', HttpStatus.NOT_FOUND);
+        }
     }
     @UseGuards(AuthGuard)
     @Post()
-    @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    createProduct(@Body() CreateProductDto: CreateProductDto, @Res() res: Response) {
-        const newProduct = this.productService.createProduct(CreateProductDto);
-        return res.status(201).json({
-            message: 'Producto creado',
-            producto: newProduct
-        });
+    async createProduct(@Body() CreateProductDto: CreateProductDto, @Res() res: Response) {
+        try {
+            const newProduct = await this.productService.createProduct(CreateProductDto);
+            return await res.status(201).json({
+                message: 'Producto creado',
+                producto: newProduct
+            });
+        } catch (error) {
+            throw new HttpException('Error al crear el producto', HttpStatus.BAD_REQUEST);
+        }
 
     }
     @UseGuards(AuthGuard)
     @Put(":id")
-    @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    updateProduct(@Param("id") id: number, @Body() CreateProductDto: CreateProductDto, @Res() res: Response) {
-        const updatedProduct = this.productService.updateProduct(Number(id), CreateProductDto);
-        return res.status(201).json({
-            message: 'Producto modificado con exito',
-            producto: updatedProduct
-        });
+    async updateProduct(@Param("id", ParseUUIDPipe) id: string, @Body() UpdateProductDto: UpdateProductDto, @Res() res: Response) {
+        try{
+            const updatedProduct = await this.productService.updateProduct(id, UpdateProductDto);
+            return res.status(201).json({
+                message: 'Producto modificado con exito',
+                producto: updatedProduct
+            });
+        }catch(error){
+            throw new HttpException('Error al modificar el producto', HttpStatus.BAD_REQUEST);
+        }
     }
     @UseGuards(AuthGuard)
     @Delete(":id")
-    deleteProduct(@Param("id") id: number, @Res() res: Response) {
-        const deletedProduct = this.productService.deleteProduct(Number(id));
-        return res.status(200).json({
-            message: 'Producto eliminado con exito',
-            producto: deletedProduct
-        });
+    async deleteProduct(@Param("id", ParseUUIDPipe) id: string, @Res() res: Response) {
+        try {
+            const deletedProduct = await this.productService.deleteProduct(id);
+            return res.status(200).json({
+                message: 'Producto eliminado con exito',
+                producto: deletedProduct
+            });
+        } catch (error) {
+            throw new HttpException('Error al eliminar el producto', HttpStatus.NOT_FOUND);
+        }
     }
 
 

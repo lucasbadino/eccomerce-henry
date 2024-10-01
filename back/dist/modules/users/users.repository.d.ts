@@ -1,43 +1,37 @@
-import { User } from "./usersDto/usersDto";
+import { Users } from "./users.entity";
 export declare class UsersRepository {
-    private users;
-    getUsers(): {
-        id: number;
-        email: string;
+    private usersRepository;
+    getUsers(): Promise<Users[]>;
+    getUserById(id: string): Promise<{
+        id: string;
         name: string;
-        address: string;
-        phone: string;
+        email: string;
+        phone: number;
         country: string;
-        city: string;
-    }[];
-    getUserById(id: number): {
-        id: number;
-        email: string;
-        name: string;
         address: string;
-        phone: string;
-        country: string;
         city: string;
-    };
-    createUser(user: Omit<User, "id">): number;
-    uptadeUser(id: number, user: Omit<User, "id">): {
-        id: number;
-        email: string;
+        orders: import("../orders/orders.entity").Orders[];
+    }>;
+    createUser(user: Users): Promise<Users>;
+    uptadeUser(id: string, user: Users): Promise<{
+        id: string;
         name: string;
+        email: string;
         password: string;
-        address: string;
-        phone: string;
+        phone: number;
         country: string;
+        address: string;
         city: string;
-    };
-    deleteUser(id: number): {
-        id: number;
-        email: string;
+        orders: import("../orders/orders.entity").Orders[];
+    }>;
+    deleteUser(id: string): Promise<{
+        id: string;
         name: string;
-        password: string;
-        address: string;
-        phone: string;
+        email: string;
+        phone: number;
         country: string;
+        address: string;
         city: string;
-    };
+        orders: import("../orders/orders.entity").Orders[];
+    }>;
 }

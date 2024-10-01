@@ -17,79 +17,101 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const usersDto_1 = require("./usersDto/usersDto");
 const auth_guard_1 = require("../auth/authGuard/auth.guard");
+const users_entity_1 = require("./users.entity");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    getUsers() {
-        return this.userService.getUsers();
+    async getUsers() {
+        try {
+            return await this.userService.getUsers();
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al obtener los usuarios', common_1.HttpStatus.BAD_REQUEST);
+        }
     }
-    getUserById(res, req) {
-        const { id } = req.params;
-        const user = this.userService.getUserById(Number(id));
-        return res.status(200).send(user);
+    async getUserById(id, res) {
+        try {
+            const user = await this.userService.getUserById(id);
+            return res.status(200).send(user);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al obtener el usuario', common_1.HttpStatus.NOT_FOUND);
+        }
     }
-    createUser(res, CreateUserDto) {
-        const id = this.userService.CreateUser(CreateUserDto);
-        return res.status(201).json(`Usuario creado con exito con el id: ${id}`);
+    async createUser(res, CreateUserDto) {
+        try {
+            const { id } = await this.userService.CreateUser(CreateUserDto);
+            return res.status(201).json(`Usuario creado con exito con el id: ${id}`);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al crear el usuario', common_1.HttpStatus.BAD_REQUEST);
+        }
     }
-    updateUser(idNumber, UpdateUserDto, res) {
-        const updatedUser = this.userService.updateUser(Number(idNumber), UpdateUserDto);
-        const { id } = updatedUser;
-        return res.status(201).json(`Usuario actualizado con exito: ${id}`);
+    async updateUser(idNumber, UpdateUserData, res) {
+        try {
+            const updatedUser = await this.userService.updateUser(idNumber, UpdateUserData);
+            const { id } = updatedUser;
+            return res.status(201).json(`Usuario actualizado con exito: ${id}`);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al actualizar el usuario', common_1.HttpStatus.NOT_FOUND);
+        }
     }
-    deleteUser(idNumber, res) {
-        const deletedUser = this.userService.deleteUser(Number(idNumber));
-        const { id } = deletedUser;
-        return res.status(200).json(`Usuario eliminado con exito: ${id}`);
+    async deleteUser(idNumber, res) {
+        try {
+            const deletedUser = await this.userService.deleteUser(idNumber);
+            const { id } = deletedUser;
+            return res.status(200).json(`Usuario eliminado con exito: ${id}`);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al eliminar el usuario', common_1.HttpStatus.NOT_FOUND);
+        }
     }
 };
 exports.UserController = UserController;
 __decorate([
-    (0, common_1.HttpCode)(200),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUsers", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)(":id"),
-    __param(0, (0, common_1.Res)()),
-    __param(1, (0, common_1.Req)()),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUserById", null);
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.UsePipes)(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })),
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, usersDto_1.CreateUserDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUser", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Put)(":id"),
-    (0, common_1.UsePipes)(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })),
-    __param(0, (0, common_1.Param)("id")),
+    __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, usersDto_1.UpdateUserDto, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, users_entity_1.Users, Object]),
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "updateUser", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Delete)(":id"),
-    __param(0, (0, common_1.Param)("id")),
+    __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
 ], UserController.prototype, "deleteUser", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)("users"),

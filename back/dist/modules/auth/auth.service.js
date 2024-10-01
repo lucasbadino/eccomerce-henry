@@ -20,15 +20,7 @@ let AuthService = class AuthService {
         return "auth";
     }
     singin({ email, password }) {
-        try {
-            return this.AuthRepository.singin(email, password);
-        }
-        catch (error) {
-            return {
-                message: 'Error al iniciar sesion',
-                error: error
-            };
-        }
+        return this.AuthRepository.singin(email, password);
     }
 };
 exports.AuthService = AuthService;

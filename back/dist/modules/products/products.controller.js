@@ -15,40 +15,65 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductController = void 0;
 const common_1 = require("@nestjs/common");
 const products_service_1 = require("./products.service");
-const productsDto_1 = require("./productsDto/productsDto");
 const auth_guard_1 = require("../auth/authGuard/auth.guard");
+const productsDto_1 = require("./productsDto/productsDto");
 let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
     }
-    getProducts(res, limit = 5, page = 1) {
-        const products = this.productService.getPruducts(page, limit);
-        return res.status(200).send(products);
+    async getProducts(res, limit = 5, page = 1) {
+        try {
+            const products = await this.productService.getPruducts(page, limit);
+            return res.status(200).send(products);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al obtener los productos', common_1.HttpStatus.NOT_FOUND);
+        }
     }
-    getProductsById(id, res) {
-        const product = this.productService.getPruductsById(Number(id));
-        return res.status(200).send(product);
+    async getProductsById(id, res) {
+        try {
+            const product = await this.productService.getPruductsById(id);
+            return res.status(200).send(product);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al obtener el producto', common_1.HttpStatus.NOT_FOUND);
+        }
     }
-    createProduct(CreateProductDto, res) {
-        const newProduct = this.productService.createProduct(CreateProductDto);
-        return res.status(201).json({
-            message: 'Producto creado',
-            producto: newProduct
-        });
+    async createProduct(CreateProductDto, res) {
+        try {
+            const newProduct = await this.productService.createProduct(CreateProductDto);
+            return await res.status(201).json({
+                message: 'Producto creado',
+                producto: newProduct
+            });
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al crear el producto', common_1.HttpStatus.BAD_REQUEST);
+        }
     }
-    updateProduct(id, CreateProductDto, res) {
-        const updatedProduct = this.productService.updateProduct(Number(id), CreateProductDto);
-        return res.status(201).json({
-            message: 'Producto modificado con exito',
-            producto: updatedProduct
-        });
+    async updateProduct(id, UpdateProductDto, res) {
+        try {
+            const updatedProduct = await this.productService.updateProduct(id, UpdateProductDto);
+            return res.status(201).json({
+                message: 'Producto modificado con exito',
+                producto: updatedProduct
+            });
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al modificar el producto', common_1.HttpStatus.BAD_REQUEST);
+        }
     }
-    deleteProduct(id, res) {
-        const deletedProduct = this.productService.deleteProduct(Number(id));
-        return res.status(200).json({
-            message: 'Producto eliminado con exito',
-            producto: deletedProduct
-        });
+    async deleteProduct(id, res) {
+        try {
+            const deletedProduct = await this.productService.deleteProduct(id);
+            return res.status(200).json({
+                message: 'Producto eliminado con exito',
+                producto: deletedProduct
+            });
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al eliminar el producto', common_1.HttpStatus.NOT_FOUND);
+        }
     }
 };
 exports.ProductController = ProductController;
@@ -59,45 +84,43 @@ __decorate([
     __param(2, (0, common_1.Query)("page")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Number, Number]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductController.prototype, "getProducts", null);
 __decorate([
     (0, common_1.Get)(":id"),
-    __param(0, (0, common_1.Param)("id")),
+    __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
 ], ProductController.prototype, "getProductsById", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)(),
-    (0, common_1.UsePipes)(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [productsDto_1.CreateProductDto, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductController.prototype, "createProduct", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Put)(":id"),
-    (0, common_1.UsePipes)(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })),
-    __param(0, (0, common_1.Param)("id")),
+    __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, productsDto_1.CreateProductDto, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, productsDto_1.UpdateProductDto, Object]),
+    __metadata("design:returntype", Promise)
 ], ProductController.prototype, "updateProduct", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Delete)(":id"),
-    __param(0, (0, common_1.Param)("id")),
+    __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
 ], ProductController.prototype, "deleteProduct", null);
 exports.ProductController = ProductController = __decorate([
     (0, common_1.Controller)('products'),

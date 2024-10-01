@@ -15,6 +15,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
 const data_source_1 = require("./config/data-source");
 const seeds_module_1 = require("./seeders/seeds.module");
+const orders_module_1 = require("./modules/orders/orders.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -22,6 +23,7 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             auth_module_1.AuthModule,
+            orders_module_1.OrdersModule,
             users_module_1.UserModule,
             products_module_1.ProductModule,
             seeds_module_1.SeedsModule,

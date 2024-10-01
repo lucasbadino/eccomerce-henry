@@ -6,8 +6,5 @@ export declare class AuthService {
     singin({ email, password }: {
         email: any;
         password: any;
-    }): boolean | {
-        message: string;
-        error: any;
-    };
+    }): boolean;
 }

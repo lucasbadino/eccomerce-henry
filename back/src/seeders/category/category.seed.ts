@@ -1,9 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Categories } from "src/entities/categories.entity";
+import { Categories } from "src/modules/categories/categories.entity";
 import { In, Repository } from "typeorm";
 import { data } from "../data";
-import e from "express";
 
 @Injectable()
 export class CategorySeed {

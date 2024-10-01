@@ -21,20 +21,26 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     getAuth() {
-        return this.authService.getAuth();
-    }
-    singin(AuthDto, res) {
-        const validate = this.authService.singin(AuthDto);
-        if (validate) {
-            return res.status(201).json({
-                message: 'Sesion iniciada con exito',
-                validate
-            });
+        try {
+            return this.authService.getAuth();
         }
-        return res.status(400).json({
-            message: 'Email o password incorrectos',
-            validate
-        });
+        catch (error) {
+            throw new common_1.HttpException('Error al iniciar sesion', common_1.HttpStatus.NOT_FOUND);
+        }
+    }
+    singin(LoginUserDto, res) {
+        try {
+            const validate = this.authService.singin(LoginUserDto);
+            if (validate) {
+                return res.status(201).json({
+                    message: 'Sesion iniciada con exito',
+                    validate
+                });
+            }
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al iniciar sesion', common_1.HttpStatus.NOT_FOUND);
+        }
     }
 };
 exports.AuthController = AuthController;
@@ -46,11 +52,10 @@ __decorate([
 ], AuthController.prototype, "getAuth", null);
 __decorate([
     (0, common_1.Post)("signin"),
-    (0, common_1.UsePipes)(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [authDto_1.AuthDto, Object]),
+    __metadata("design:paramtypes", [authDto_1.LoginUserDto, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "singin", null);
 exports.AuthController = AuthController = __decorate([

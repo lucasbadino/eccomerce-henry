@@ -22,14 +22,17 @@ let ProductService = class ProductService {
     getPruductsById(id) {
         return this.productsRepository.getProductsById(id);
     }
-    createProduct(product) {
-        return this.productsRepository.createProduct(product);
+    async createProduct(product) {
+        return await this.productsRepository.createProduct(product);
     }
-    deleteProduct(id) {
-        return this.productsRepository.deleteProduct(id);
+    async deleteProduct(id) {
+        return await this.productsRepository.deleteProduct(id);
     }
-    updateProduct(id, product) {
-        return this.productsRepository.updateProduct(id, product);
+    async updateProduct(id, UpdateProductDto) {
+        return await this.productsRepository.updateProduct(id, UpdateProductDto);
+    }
+    async buyProduct(product) {
+        return await this.productsRepository.buyProduct(product);
     }
 };
 exports.ProductService = ProductService;

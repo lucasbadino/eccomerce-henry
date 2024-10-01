@@ -1,47 +1,66 @@
-import { Controller, Delete, Get, HttpCode, Post, Put, Res, Req, Param, Body, UsePipes, ValidationPipe, UseGuards } from "@nestjs/common";
+import { Controller, Delete, Get, Post, Put, Res, Param, Body, UseGuards, ParseUUIDPipe, HttpException, HttpStatus } from "@nestjs/common";
 import { UserService } from "./users.service";
-import { CreateUserDto, UpdateUserDto, User } from "./usersDto/usersDto";
-import { Request, Response } from "express";
+import { CreateUserDto } from "./usersDto/usersDto";
+import { Response } from "express";
 import { AuthGuard } from "../auth/authGuard/auth.guard";
+import { Users } from "./users.entity";
 
 
 @Controller("users")
 export class UserController {
     constructor(private readonly userService: UserService) { }
-    @HttpCode(200)
     @UseGuards(AuthGuard)
     @Get()
-    getUsers() {
-        return this.userService.getUsers();
+    async getUsers(): Promise<Users[]> {
+        try {
+            return await this.userService.getUsers();
+        } catch (error) {
+            throw new HttpException('Error al obtener los usuarios', HttpStatus.BAD_REQUEST);
+        }
     }
     @UseGuards(AuthGuard)
     @Get(":id")
-    getUserById(@Res() res: Response, @Req() req: Request) {
-        const { id } = req.params
-        const user = this.userService.getUserById(Number(id));
-        return res.status(200).send(user);
+    async getUserById(@Param("id") id: string, @Res() res: Response) {
+        try {
+            const user = await this.userService.getUserById(id);
+            return res.status(200).send(user);
+
+        } catch (error) {
+            throw new HttpException('Error al obtener el usuario', HttpStatus.NOT_FOUND);
+        }
     }
 
     @Post()
-    @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    createUser(@Res() res: Response, @Body() CreateUserDto: CreateUserDto) {
-        const id = this.userService.CreateUser(CreateUserDto);
-        return res.status(201).json(`Usuario creado con exito con el id: ${id}`);
+    async createUser(@Res() res: Response, @Body() CreateUserDto: CreateUserDto) {
+        try {
+            const { id } = await this.userService.CreateUser(CreateUserDto);
+            return res.status(201).json(`Usuario creado con exito con el id: ${id}`);
+        } catch (error) {
+            throw new HttpException('Error al crear el usuario', HttpStatus.BAD_REQUEST);
+
+        }
     }
     @UseGuards(AuthGuard)
     @Put(":id")
-    @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
-    updateUser(@Param("id") idNumber: number, @Body() UpdateUserDto: UpdateUserDto, @Res() res: Response) {
-        const updatedUser = this.userService.updateUser(Number(idNumber), UpdateUserDto);
-        const { id } = updatedUser
-        return res.status(201).json(`Usuario actualizado con exito: ${id}`);
+    async updateUser(@Param("id", ParseUUIDPipe) idNumber: string, @Body() UpdateUserData: Users, @Res() res: Response) {
+        try {
+            const updatedUser = await this.userService.updateUser(idNumber, UpdateUserData);
+            const { id } = updatedUser
+            return res.status(201).json(`Usuario actualizado con exito: ${id}`);
+        } catch (error) {
+            throw new HttpException('Error al actualizar el usuario', HttpStatus.NOT_FOUND);
+        }
     }
     @UseGuards(AuthGuard)
     @Delete(":id")
-    deleteUser(@Param("id") idNumber: number, @Res() res: Response) {
-        const deletedUser = this.userService.deleteUser(Number(idNumber));
-        const { id } = deletedUser
-        return res.status(200).json(`Usuario eliminado con exito: ${id}`);
+    async deleteUser(@Param("id", ParseUUIDPipe) idNumber: string, @Res() res: Response) {
+        try {
+            const deletedUser = await this.userService.deleteUser(idNumber);
+            const { id } = deletedUser
+            return res.status(200).json(`Usuario eliminado con exito: ${id}`);
+        } catch (error) {
+            throw new HttpException('Error al eliminar el usuario', HttpStatus.NOT_FOUND);
+        }
     }
 
 }

@@ -1,57 +1,31 @@
-import { IsString, IsEmail } from 'class-validator';
-export class User {
-    id: number;
-    email: string;
-    name: string;
-    password: string;
-    address: string;
-    phone: string;
-    country: string;
-    city: string;
-}
-
-
+import { IsString, IsEmail, IsNumber, IsNotEmpty, Length, IsStrongPassword } from 'class-validator';
 export class CreateUserDto {
+    @IsString()
+    @IsNotEmpty()
+    @Length(3, 80)
+    name: string
+    @IsNotEmpty()
     @IsEmail()
-    email: string;
-
+    @Length(3, 80)
+    email: string
+    @IsStrongPassword({
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+    })
+    @Length(8, 15)
+    password: string
     @IsString()
-    name: string;
-
+    @Length(3, 80)
+    address: string
+    @IsNumber()
+    @IsNotEmpty()
+    phone: number
     @IsString()
-    password: string;
-
+    @Length(5, 20)
+    country: string
     @IsString()
-    address: string;
-
-    @IsString()
-    phone: string;
-
-    @IsString()
-    country: string;
-
-    @IsString()
-    city: string;
-}
-export class UpdateUserDto {
-    @IsEmail()
-    email: string;
-
-    @IsString()
-    name: string;
-
-    @IsString()
-    password: string;
-
-    @IsString()
-    address: string;
-
-    @IsString()
-    phone: string;
-
-    @IsString()
-    country: string;
-
-    @IsString()
-    city: string;
+    @Length(5, 20)
+    city: string
 }

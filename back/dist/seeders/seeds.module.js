@@ -11,8 +11,8 @@ const common_1 = require("@nestjs/common");
 const category_seed_1 = require("./category/category.seed");
 const products_seed_1 = require("./products/products.seed");
 const typeorm_1 = require("@nestjs/typeorm");
-const categories_entity_1 = require("../entities/categories.entity");
-const products_entity_1 = require("../entities/products.entity");
+const categories_entity_1 = require("../modules/categories/categories.entity");
+const products_entity_1 = require("../modules/products/products.entity");
 let SeedsModule = class SeedsModule {
 };
 exports.SeedsModule = SeedsModule;

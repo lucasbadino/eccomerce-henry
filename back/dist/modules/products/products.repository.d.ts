@@ -1,44 +1,14 @@
-import { Product } from "./productsDto/productsDto";
+import { Products } from "./products.entity";
+import { CreateProductDto, UpdateProductDto } from "./productsDto/productsDto";
 export declare class ProductsRepository {
-    private products;
-    getProducts(page: number, limit: number): {
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        stock: boolean;
-        imgUrl: string;
-    }[];
-    getProductsById(id: number): {
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        stock: boolean;
-        imgUrl: string;
-    };
-    createProduct(product: Omit<Product, "id">): {
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        stock: boolean;
-        imgUrl: string;
-    };
-    updateProduct(id: number, product: Omit<Product, "id">): {
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        stock: boolean;
-        imgUrl: string;
-    };
-    deleteProduct(id: number): {
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        stock: boolean;
-        imgUrl: string;
-    };
+    private productsRepository;
+    getProducts(page: number, limit: number): Promise<Products[]>;
+    getProductsById(id: string): Promise<Products>;
+    createProduct(product: CreateProductDto): Promise<Products>;
+    updateProduct(id: string, UpdateProductDto: UpdateProductDto): Promise<import("typeorm").UpdateResult>;
+    deleteProduct(id: string): Promise<Products>;
+    buyProduct(products: any): Promise<{
+        totalPrice: number;
+        products: any;
+    }>;
 }

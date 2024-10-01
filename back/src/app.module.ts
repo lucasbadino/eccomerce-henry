@@ -6,11 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { postgresConfig } from './config/data-source'
 import { SeedsModule } from './seeders/seeds.module';
+import { OrdersModule } from './modules/orders/orders.module';
 
 
 @Module({
   imports: [
     AuthModule,
+    OrdersModule,
     UserModule,
     ProductModule,
     SeedsModule,

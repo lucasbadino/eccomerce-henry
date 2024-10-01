@@ -15,10 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsSeed = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const products_entity_1 = require("../../entities/products.entity");
+const products_entity_1 = require("../../modules/products/products.entity");
 const typeorm_2 = require("typeorm");
 const data_1 = require("../data");
-const categories_entity_1 = require("../../entities/categories.entity");
+const categories_entity_1 = require("../../modules/categories/categories.entity");
 let ProductsSeed = class ProductsSeed {
     constructor(productsRepository, categoryRepository) {
         this.productsRepository = productsRepository;

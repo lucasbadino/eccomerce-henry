@@ -2,8 +2,8 @@ import { Module } from "@nestjs/common";
 import { CategorySeed } from "./category/category.seed";
 import { ProductsSeed } from "./products/products.seed";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Categories } from "src/entities/categories.entity";
-import { Products } from "src/entities/products.entity";
+import { Categories } from "src/modules/categories/categories.entity";
+import { Products } from "src/modules/products/products.entity";
 
 @Module({
     imports: [

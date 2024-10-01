@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategorySeed = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const categories_entity_1 = require("../../entities/categories.entity");
+const categories_entity_1 = require("../../modules/categories/categories.entity");
 const typeorm_2 = require("typeorm");
 const data_1 = require("../data");
 let CategorySeed = class CategorySeed {

@@ -5,71 +5,63 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsRepository = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const products_entity_1 = require("./products.entity");
+const typeorm_2 = require("typeorm");
 let ProductsRepository = class ProductsRepository {
-    constructor() {
-        this.products = [
-            {
-                id: 1,
-                name: "Product 1",
-                description: "Description 1",
-                price: 100,
-                stock: true,
-                imgUrl: "https://via.placeholder.com/150"
-            },
-            {
-                id: 2,
-                name: "Product 2",
-                description: "Description 2",
-                price: 200,
-                stock: false,
-                imgUrl: "https://via.placeholder.com/150"
-            },
-            {
-                id: 3,
-                name: "Product 3",
-                description: "Description 3",
-                price: 300,
-                stock: true,
-                imgUrl: "https://via.placeholder.com/150"
-            }
-        ];
+    async getProducts(page, limit) {
+        const products = await this.productsRepository.find();
+        return products;
     }
-    getProducts(page, limit) {
-        return this.products.slice((page - 1) * limit, page * limit);
-    }
-    getProductsById(id) {
-        const product = this.products.find((prod) => prod.id == id);
+    async getProductsById(id) {
+        const product = await this.productsRepository.findOneBy({ id });
         return product;
     }
-    createProduct(product) {
-        const id = this.products.length + 1;
-        this.products = [...this.products, { id, ...product }];
-        const newProduct = this.products.find(prod => prod.id == id);
-        return newProduct;
+    async createProduct(product) {
+        const prod = await this.productsRepository.create(product);
+        await this.productsRepository.save(prod);
+        return prod;
     }
-    updateProduct(id, product) {
-        this.products = this.products.map((e) => {
-            if (e.id == id) {
-                return {
-                    ...e,
-                    ...product
-                };
-            }
-            return e;
-        });
-        const updatedProduct = this.products.find(prod => prod.id == id);
+    async updateProduct(id, UpdateProductDto) {
+        const updatedProduct = await this.productsRepository.update({ id }, UpdateProductDto);
         return updatedProduct;
     }
-    deleteProduct(id) {
-        const deletedProduct = this.products.find(prod => prod.id == id);
-        this.products = this.products.filter((e) => e.id != id);
-        return deletedProduct;
+    async deleteProduct(id) {
+        const dataToDelete = await this.productsRepository.findOneBy({ id });
+        await this.productsRepository.delete({ id });
+        return dataToDelete;
+    }
+    async buyProduct(products) {
+        try {
+            let totalPrice = 0;
+            for (const prod of products) {
+                const product = await this.getProductsById(prod.id);
+                if (!product) {
+                    throw Error('Product not found');
+                }
+                if (product.stock > 0) {
+                    totalPrice += product.price;
+                    product.stock -= 1;
+                    await this.productsRepository.save(product);
+                }
+            }
+            return { totalPrice, products };
+        }
+        catch (error) {
+        }
     }
 };
 exports.ProductsRepository = ProductsRepository;
+__decorate([
+    (0, typeorm_1.InjectRepository)(products_entity_1.Products),
+    __metadata("design:type", typeorm_2.Repository)
+], ProductsRepository.prototype, "productsRepository", void 0);
 exports.ProductsRepository = ProductsRepository = __decorate([
     (0, common_1.Injectable)()
 ], ProductsRepository);

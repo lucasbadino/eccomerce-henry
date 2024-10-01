@@ -1,69 +1,51 @@
 import { Injectable } from "@nestjs/common";
-import { User } from "./usersDto/usersDto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Users } from "./users.entity";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class UsersRepository {
-    private users = [
-        {
-            id: 1,
-            email: "lucasbadino@gmail.com",
-            name: "lucasbadino",
-            password: "lucasbadino",
-            address: "luis r garcia 1092",
-            phone: "123456789",
-            country: "Argetina",
-            city: "Cordoba"
-        },
-        {
-            id: 2,
-            email: "pruebadino@gmail.com",
-            name: "pruebadino",
-            password: "pruebadino",
-            address: "luis r garcia 1092",
-            phone: "123456789",
-            country: "Argetina",
-            city: "Cordoba"
-        },
-        {
-            id: 3,
-            email: "test@gmail.com",
-            name: "test",
-            password: "test",
-            address: "luis r garcia 1092",
-            phone: "123456789",
-            country: "Argetina",
-            city: "Cordoba"
-        }
-    ]
-    getUsers() {
-        const users = this.users.map(({ password, ...rest }) => ({ ...rest }));
+    @InjectRepository(Users)
+    private usersRepository: Repository<Users>;
+
+    async getUsers() {
+        const users = await this.usersRepository.find(
+            {
+                select: ["id", "email", "name", "address", "phone", "country", "city"],
+                relations: {orders: true,},
+                order: { id: "ASC" }
+            }
+        ); 
         return users;
     }
-    getUserById(id: number) {
-        const { password, ...rest } = this.users.find((user) => user.id === id);;
-        return { ...rest };
+    async getUserById(id: string) {
+        const user = await this.usersRepository.findOneBy({
+            id
+        });;
+        if (!user) {
+            throw new Error("User not found");
+        }
+        const { password, ...rest } = user;
+        return rest;
     }
-    createUser(user: Omit<User, "id">) {
-        const id = this.users.length + 1
-        this.users = [...this.users, { id, ...user }]
-        return id
+    async createUser(user: Users) {
+        const newUser = await this.usersRepository.create(user);
+        await this.usersRepository.save(newUser);
+        return newUser
     }
-    uptadeUser(id: number, user: Omit<User, "id">) {
-        const updatedUsers = this.users.map((us) => {
-            if (us.id === id) {
-                return { ...us, ...user };
-            }
-            return us;
-        });
-        const updatedUser = updatedUsers.find((us) => us.id === id);
-
-        this.users = updatedUsers;
-
-        return updatedUser;
+    async uptadeUser(id: string, user: Users) {
+        const updatedUser = await this.getUserById(id)
+        if (updatedUser) {
+            return { ...updatedUser, ...user };
+        }
+        throw new Error("User not found");
     }
-    deleteUser(id: number) {
-        const deletedUser = this.users.find((user) => user.id === id)
-        this.users = this.users.filter((us) => us.id !== id);
+    async deleteUser(id: string) {
+        const deletedUser = await this.getUserById(id)
+        if (!deletedUser) {
+            throw new Error("User not found");
+        }
+        await this.usersRepository.delete(id)
         return deletedUser;
     }
 }
