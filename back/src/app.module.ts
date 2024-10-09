@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { postgresConfig } from './config/data-source'
 import { SeedsModule } from './seeders/seeds.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 
 @Module({
@@ -24,9 +25,8 @@ import { OrdersModule } from './modules/orders/orders.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => configService.get('typeorm')
     }),
-
+    CloudinaryModule,
   ],
   controllers: [],
-  providers: [],
 })
 export class AppModule { }

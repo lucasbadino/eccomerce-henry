@@ -5,6 +5,7 @@ import { CreateProductDto, UpdateProductDto } from "./productsDto/productsDto";
 
 @Injectable()
 export class ProductService {
+    
 
     constructor(private readonly productsRepository: ProductsRepository) { }
     getPruducts(page: number, limit: number) {
@@ -24,6 +25,9 @@ export class ProductService {
     }
     async buyProduct(product: Products[]) {
         return await this.productsRepository.buyProduct(product);
+    }
+    async updateImageProduct(id: string, url) {
+        return await this.productsRepository.updateImageProduct(id, url);
     }
 
 }

@@ -56,6 +56,14 @@ let ProductsRepository = class ProductsRepository {
         catch (error) {
         }
     }
+    async updateImageProduct(id, url) {
+        try {
+            return await this.productsRepository.update({ id }, { imgUrl: url });
+        }
+        catch (error) {
+            throw new Error(error);
+        }
+    }
 };
 exports.ProductsRepository = ProductsRepository;
 __decorate([

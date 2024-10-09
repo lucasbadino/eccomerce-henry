@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Products } from "./products.entity";
 import { Repository } from "typeorm";
@@ -6,6 +6,7 @@ import { CreateProductDto, UpdateProductDto } from "./productsDto/productsDto";
 
 @Injectable()
 export class ProductsRepository {
+
     @InjectRepository(Products)
     private productsRepository: Repository<Products>;
 
@@ -50,10 +51,16 @@ export class ProductsRepository {
                     await this.productsRepository.save(product);
                 }
             }
-            return {totalPrice, products}
+            return { totalPrice, products }
         } catch (error) {
 
         }
     }
-
+    async updateImageProduct(id: string, url: string) {
+        try {
+            return await this.productsRepository.update({ id }, { imgUrl: url })
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
 }

@@ -16,6 +16,7 @@ const config_1 = require("@nestjs/config");
 const data_source_1 = require("./config/data-source");
 const seeds_module_1 = require("./seeders/seeds.module");
 const orders_module_1 = require("./modules/orders/orders.module");
+const cloudinary_module_1 = require("./cloudinary/cloudinary.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -35,9 +36,9 @@ exports.AppModule = AppModule = __decorate([
                 inject: [config_1.ConfigService],
                 useFactory: (configService) => configService.get('typeorm')
             }),
+            cloudinary_module_1.CloudinaryModule,
         ],
         controllers: [],
-        providers: [],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

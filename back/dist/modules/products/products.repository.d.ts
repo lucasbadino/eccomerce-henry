@@ -11,4 +11,5 @@ export declare class ProductsRepository {
         totalPrice: number;
         products: any;
     }>;
+    updateImageProduct(id: string, url: string): Promise<import("typeorm").UpdateResult>;
 }

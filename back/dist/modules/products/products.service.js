@@ -34,6 +34,9 @@ let ProductService = class ProductService {
     async buyProduct(product) {
         return await this.productsRepository.buyProduct(product);
     }
+    async updateImageProduct(id, url) {
+        return await this.productsRepository.updateImageProduct(id, url);
+    }
 };
 exports.ProductService = ProductService;
 exports.ProductService = ProductService = __decorate([
