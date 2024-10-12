@@ -23,7 +23,6 @@ export class Products {
     price: number
     @Column()
     stock: number
-
     @Column({
         default: 'https://via.placeholder.com/300',
     })

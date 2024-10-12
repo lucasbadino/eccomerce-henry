@@ -3,6 +3,9 @@ import { ProductService } from "./products.service";
 import { Response } from "express";
 import { AuthGuard } from "../auth/authGuard/auth.guard";
 import { CreateProductDto, UpdateProductDto } from "./productsDto/productsDto";
+import { Roles } from "../auth/authRoles/roles.decorator";
+import { Role } from "../auth/authRoles/roles.auth";
+import { RoleGuard } from "../auth/authGuard/role.guard";
 
 @Controller('products')
 export class ProductController {
@@ -43,16 +46,17 @@ export class ProductController {
         }
 
     }
-    @UseGuards(AuthGuard)
+    @Roles(Role.Admin)
+    @UseGuards(AuthGuard, RoleGuard)
     @Put(":id")
     async updateProduct(@Param("id", ParseUUIDPipe) id: string, @Body() UpdateProductDto: UpdateProductDto, @Res() res: Response) {
-        try{
+        try {
             const updatedProduct = await this.productService.updateProduct(id, UpdateProductDto);
             return res.status(201).json({
                 message: 'Producto modificado con exito',
                 producto: updatedProduct
             });
-        }catch(error){
+        } catch (error) {
             throw new HttpException('Error al modificar el producto', HttpStatus.BAD_REQUEST);
         }
     }
