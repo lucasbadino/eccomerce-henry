@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { Orders } from '../orders/orders.entity';
+import { Role } from '../auth/authRoles/roles.auth';
 
 @Entity({
     name: 'users'
@@ -18,7 +19,7 @@ export class Users {
     })
     email: string
     @Column({
-        length: 20
+        length: 100,
     })
     password: string
     @Column({
@@ -39,6 +40,12 @@ export class Users {
         nullable: true
     })
     city: string
+    @Column({
+        default: Role.User,
+        type: 'enum',
+        enum: Role,
+    })
+    role: Role
     @OneToMany(() => Orders, (order) => order.user)
     orders: Orders[]
 }

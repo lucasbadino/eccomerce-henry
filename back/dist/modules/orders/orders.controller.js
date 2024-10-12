@@ -16,9 +16,19 @@ exports.OrdersController = void 0;
 const common_1 = require("@nestjs/common");
 const order_service_1 = require("./order.service");
 const orders_dto_1 = require("./dto/orders.dto");
+const auth_guard_1 = require("../auth/authGuard/auth.guard");
 let OrdersController = class OrdersController {
     constructor(ordersService) {
         this.ordersService = ordersService;
+    }
+    async getOrder(id, res) {
+        try {
+            const order = await this.ordersService.getOrder(id);
+            res.status(200).send(order);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al obtener la orden', common_1.HttpStatus.NOT_FOUND);
+        }
     }
     async createOrder(CreateOrderDto, res) {
         try {
@@ -32,6 +42,16 @@ let OrdersController = class OrdersController {
 };
 exports.OrdersController = OrdersController;
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], OrdersController.prototype, "getOrder", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),

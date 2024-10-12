@@ -1,4 +1,5 @@
 import { Orders } from '../orders/orders.entity';
+import { Role } from '../auth/authRoles/roles.auth';
 export declare class Users {
     id: string;
     name: string;
@@ -8,5 +9,6 @@ export declare class Users {
     country: string;
     address: string;
     city: string;
+    role: Role;
     orders: Orders[];
 }

@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const cloudinary_service_1 = require("./cloudinary.service");
 const products_service_1 = require("../modules/products/products.service");
+const auth_guard_1 = require("../modules/auth/authGuard/auth.guard");
 let CloudinaryController = class CloudinaryController {
     constructor(cloudinaryService, productService) {
         this.cloudinaryService = cloudinaryService;
@@ -42,6 +43,7 @@ let CloudinaryController = class CloudinaryController {
 };
 exports.CloudinaryController = CloudinaryController;
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)(':id'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     __param(0, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({

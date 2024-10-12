@@ -1,10 +1,9 @@
-import { Controller, FileTypeValidator, HttpException, HttpStatus, Inject, MaxFileSizeValidator, Param, ParseFilePipe, ParseUUIDPipe, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, FileTypeValidator, HttpException, HttpStatus, Inject, MaxFileSizeValidator, Param, ParseFilePipe, ParseUUIDPipe, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { v2 as cloudinary } from 'cloudinary';
-import * as toString from 'buffer-to-stream';
 import { CloudinaryService } from './cloudinary.service';
 import { Response } from 'express';
 import { ProductService } from 'src/modules/products/products.service';
+import { AuthGuard } from 'src/modules/auth/authGuard/auth.guard';
 
 @Controller('files/uploadImage')
 export class CloudinaryController {
@@ -12,7 +11,7 @@ export class CloudinaryController {
         private readonly cloudinaryService: CloudinaryService,
         private readonly productService: ProductService
     ) { }
-
+    @UseGuards(AuthGuard)
     @Post(':id')
     @UseInterceptors(FileInterceptor('file'))
     async uploadImage(@UploadedFile(
@@ -40,9 +39,7 @@ export class CloudinaryController {
             return res.status(200).send({
                 uploadStatus: true,
                 result
-            });
-            
-            
+            });        
         } catch (error) {
             throw new HttpException('Error al subir el archivo', HttpStatus.BAD_REQUEST);
         }

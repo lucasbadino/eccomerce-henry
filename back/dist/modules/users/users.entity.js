@@ -13,6 +13,7 @@ exports.Users = void 0;
 const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
 const orders_entity_1 = require("../orders/orders.entity");
+const roles_auth_1 = require("../auth/authRoles/roles.auth");
 let Users = class Users {
     constructor() {
         this.id = (0, uuid_1.v4)();
@@ -38,7 +39,7 @@ __decorate([
 ], Users.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        length: 20
+        length: 100,
     }),
     __metadata("design:type", String)
 ], Users.prototype, "password", void 0);
@@ -68,6 +69,14 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], Users.prototype, "city", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        default: roles_auth_1.Role.User,
+        type: 'enum',
+        enum: roles_auth_1.Role,
+    }),
+    __metadata("design:type", String)
+], Users.prototype, "role", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => orders_entity_1.Orders, (order) => order.user),
     __metadata("design:type", Array)

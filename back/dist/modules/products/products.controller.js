@@ -95,7 +95,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "getProductsById", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),

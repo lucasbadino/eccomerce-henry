@@ -2,7 +2,6 @@ import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseU
 import { ProductService } from "./products.service";
 import { Response } from "express";
 import { AuthGuard } from "../auth/authGuard/auth.guard";
-import { Products } from "./products.entity";
 import { CreateProductDto, UpdateProductDto } from "./productsDto/productsDto";
 
 @Controller('products')
@@ -31,7 +30,6 @@ export class ProductController {
             throw new HttpException('Error al obtener el producto', HttpStatus.NOT_FOUND);
         }
     }
-    @UseGuards(AuthGuard)
     @Post()
     async createProduct(@Body() CreateProductDto: CreateProductDto, @Res() res: Response) {
         try {

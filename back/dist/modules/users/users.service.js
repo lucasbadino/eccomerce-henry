@@ -22,6 +22,9 @@ let UserService = class UserService {
     async getUserById(id) {
         return await this.usersRepository.getUserById(id);
     }
+    async getUserByEmail(email) {
+        return await this.usersRepository.getUserByEmail(email);
+    }
     async CreateUser(user) {
         return await this.usersRepository.createUser(user);
     }

@@ -1,9 +1,12 @@
 import { AuthService } from "./auth.service";
 import { Response } from "express";
-import { LoginUserDto } from "./authDto/authDto";
+import { LoginUserDto, singupDto } from "./authDto/authDto";
+import { UserService } from "../users/users.service";
 export declare class AuthController {
     private readonly authService;
-    constructor(authService: AuthService);
+    private readonly usersService;
+    constructor(authService: AuthService, usersService: UserService);
     getAuth(): string;
-    singin(LoginUserDto: LoginUserDto, res: Response): Response<any, Record<string, any>>;
+    singup(res: Response, user: singupDto): Promise<Response<any, Record<string, any>>>;
+    singin(LoginUserDto: LoginUserDto, res: Response): Promise<Response<any, Record<string, any>>>;
 }

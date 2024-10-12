@@ -4,10 +4,14 @@ import { CreateOrderDto } from "./dto/orders.dto";
 
 @Injectable()
 export class OrdersService {
+    
     constructor(private ordersRepository: OrdersRepository) { }
-    createOrderService(CreateOrderDto: CreateOrderDto) {
+    async getOrder(id: string) {
+        return await this.ordersRepository.getOrder(id);
+    }
+    async createOrderService(CreateOrderDto: CreateOrderDto) {
         try {
-            return this.ordersRepository.addOrder(CreateOrderDto);
+            return await this.ordersRepository.addOrder(CreateOrderDto);
         } catch (error) {
             throw `error al crear la orden: ${error}`;
         }

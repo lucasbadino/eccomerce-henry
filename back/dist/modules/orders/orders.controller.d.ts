@@ -4,5 +4,6 @@ import { Response } from "express";
 export declare class OrdersController {
     private readonly ordersService;
     constructor(ordersService: OrdersService);
+    getOrder(id: string, res: Response): Promise<void>;
     createOrder(CreateOrderDto: CreateOrderDto, res: Response): Promise<void>;
 }

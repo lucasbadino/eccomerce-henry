@@ -8,6 +8,7 @@ import { postgresConfig } from './config/data-source'
 import { SeedsModule } from './seeders/seeds.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { JwtModule } from '@nestjs/jwt';
 
 
 @Module({
@@ -17,6 +18,11 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     UserModule,
     ProductModule,
     SeedsModule,
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+      global: true
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [postgresConfig],

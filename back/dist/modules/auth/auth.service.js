@@ -19,8 +19,11 @@ let AuthService = class AuthService {
     getAuth() {
         return "auth";
     }
-    singin({ email, password }) {
-        return this.AuthRepository.singin(email, password);
+    async singin(LoginUserDto) {
+        return await this.AuthRepository.singin(LoginUserDto);
+    }
+    async singup(user) {
+        return await this.AuthRepository.singup(user);
     }
 };
 exports.AuthService = AuthService;

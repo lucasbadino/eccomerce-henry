@@ -1,14 +1,18 @@
 import { Injectable } from "@nestjs/common";
-import { Response } from "express";
 import { AuthRepository } from "./auth.repository";
+import { LoginUserDto, singupDto } from "./authDto/authDto";
 
 @Injectable()
 export class AuthService {
+
     constructor(private readonly AuthRepository: AuthRepository) { }
     getAuth() {
         return "auth";
     }
-    singin({ email, password }) {
-        return this.AuthRepository.singin(email, password);
+    async singin(LoginUserDto: LoginUserDto) {
+        return await this.AuthRepository.singin(LoginUserDto);
+    }
+    async singup(user: singupDto){
+        return await this.AuthRepository.singup(user);
     }
 }

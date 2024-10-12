@@ -1,13 +1,50 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import * as bcrypt from 'bcrypt';
+import { UserService } from "../users/users.service";
+import { LoginUserDto, singupDto } from "./authDto/authDto";
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
-export class AuthRepository{
-    singin(email: string, password: string) {
-        if(!email || !password){
-            throw new Error("Email or password not found");
+export class AuthRepository {
+    constructor(
+        private readonly usersService: UserService,
+        private readonly jwtService: JwtService,
+
+    ) { }
+    async singin(LoginUserDto: LoginUserDto) {
+        const { email, password } = LoginUserDto;
+        const user = await this.usersService.getUserByEmail(email);
+        if (!user) {
+            throw new HttpException('El usuario no existe', HttpStatus.NOT_FOUND);
         }
-        return true;
-        
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (!isValidPassword) {
+            throw new HttpException('La contraseña es incorrecta', HttpStatus.NOT_FOUND);
+        }
+        const userPayload = {
+            sub: user.id,
+            id: user.id,
+            email: user.email,
+            role: user.role
+        }
+        const token = this.jwtService.sign(userPayload);
+        return { success: true, token }
+    }
+    async singup(user: singupDto) {
+        try {
+            const hassedPassword = await bcrypt.hash(user.password, 10);
+            if (hassedPassword) {
+                user.password = hassedPassword
+                delete user.confirmPassword
+                const newUser = await this.usersService.CreateUser(user);
+                if (newUser) {
+                    const { password, ...rest } = newUser;
+                    return rest
+                }
+            }
+        } catch (error) {
+            throw new HttpException('Error al crear el usuario', HttpStatus.NOT_FOUND);
+        }
     }
 
 }

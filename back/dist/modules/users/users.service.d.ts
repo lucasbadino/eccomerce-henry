@@ -11,8 +11,10 @@ export declare class UserService {
         country: string;
         address: string;
         city: string;
+        role: import("../auth/authRoles/roles.auth").Role;
         orders: import("../orders/orders.entity").Orders[];
     }>;
+    getUserByEmail(email: string): Promise<import("./users.entity").Users>;
     CreateUser(user: any): Promise<import("./users.entity").Users>;
     updateUser(id: any, user: any): Promise<{
         id: string;
@@ -23,6 +25,7 @@ export declare class UserService {
         country: string;
         address: string;
         city: string;
+        role: import("../auth/authRoles/roles.auth").Role;
         orders: import("../orders/orders.entity").Orders[];
     }>;
     deleteUser(id: any): Promise<{
@@ -33,6 +36,7 @@ export declare class UserService {
         country: string;
         address: string;
         city: string;
+        role: import("../auth/authRoles/roles.auth").Role;
         orders: import("../orders/orders.entity").Orders[];
     }>;
 }

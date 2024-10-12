@@ -17,6 +17,7 @@ const data_source_1 = require("./config/data-source");
 const seeds_module_1 = require("./seeders/seeds.module");
 const orders_module_1 = require("./modules/orders/orders.module");
 const cloudinary_module_1 = require("./cloudinary/cloudinary.module");
+const jwt_1 = require("@nestjs/jwt");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -28,6 +29,11 @@ exports.AppModule = AppModule = __decorate([
             users_module_1.UserModule,
             products_module_1.ProductModule,
             seeds_module_1.SeedsModule,
+            jwt_1.JwtModule.register({
+                secret: process.env.JWT_SECRET,
+                signOptions: { expiresIn: '1h' },
+                global: true
+            }),
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
                 load: [data_source_1.postgresConfig],

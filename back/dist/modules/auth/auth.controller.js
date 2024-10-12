@@ -16,9 +16,11 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const authDto_1 = require("./authDto/authDto");
+const users_service_1 = require("../users/users.service");
 let AuthController = class AuthController {
-    constructor(authService) {
+    constructor(authService, usersService) {
         this.authService = authService;
+        this.usersService = usersService;
     }
     getAuth() {
         try {
@@ -28,18 +30,29 @@ let AuthController = class AuthController {
             throw new common_1.HttpException('Error al iniciar sesion', common_1.HttpStatus.NOT_FOUND);
         }
     }
-    singin(LoginUserDto, res) {
+    async singup(res, user) {
+        const email = await this.usersService.getUserByEmail(user.email);
+        if (email) {
+            throw new common_1.HttpException('El email ya existe', common_1.HttpStatus.CONFLICT);
+        }
+        if (user.password !== user.confirmPassword) {
+            throw new common_1.HttpException('Las contraseñas no coinciden', common_1.HttpStatus.BAD_REQUEST);
+        }
         try {
-            const validate = this.authService.singin(LoginUserDto);
-            if (validate) {
-                return res.status(201).json({
-                    message: 'Sesion iniciada con exito',
-                    validate
-                });
-            }
+            const validate = await this.authService.singup(user);
+            return res.status(201).json(validate);
         }
         catch (error) {
-            throw new common_1.HttpException('Error al iniciar sesion', common_1.HttpStatus.NOT_FOUND);
+            throw new common_1.HttpException('Error al crear el usuario', common_1.HttpStatus.NOT_FOUND);
+        }
+    }
+    async singin(LoginUserDto, res) {
+        try {
+            const success = await this.authService.singin(LoginUserDto);
+            return res.status(201).json(success);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Usuario o contraseña incorrecta', common_1.HttpStatus.NOT_FOUND);
         }
     }
 };
@@ -51,15 +64,24 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getAuth", null);
 __decorate([
+    (0, common_1.Post)('signup'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, authDto_1.singupDto]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "singup", null);
+__decorate([
     (0, common_1.Post)("signin"),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [authDto_1.LoginUserDto, Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], AuthController.prototype, "singin", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)("auth"),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        users_service_1.UserService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

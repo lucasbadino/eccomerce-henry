@@ -16,9 +16,12 @@ let OrdersService = class OrdersService {
     constructor(ordersRepository) {
         this.ordersRepository = ordersRepository;
     }
-    createOrderService(CreateOrderDto) {
+    async getOrder(id) {
+        return await this.ordersRepository.getOrder(id);
+    }
+    async createOrderService(CreateOrderDto) {
         try {
-            return this.ordersRepository.addOrder(CreateOrderDto);
+            return await this.ordersRepository.addOrder(CreateOrderDto);
         }
         catch (error) {
             throw `error al crear la orden: ${error}`;

@@ -4,12 +4,16 @@ import { CreateUserDto } from "./usersDto/usersDto";
 import { Response } from "express";
 import { AuthGuard } from "../auth/authGuard/auth.guard";
 import { Users } from "./users.entity";
+import { Roles } from "../auth/authRoles/roles.decorator";
+import { Role } from "../auth/authRoles/roles.auth";
+import { RoleGuard } from "../auth/authGuard/role.guard";
 
 
 @Controller("users")
 export class UserController {
     constructor(private readonly userService: UserService) { }
-    @UseGuards(AuthGuard)
+    @Roles(Role.Admin)
+    @UseGuards(AuthGuard, RoleGuard)
     @Get()
     async getUsers(): Promise<Users[]> {
         try {

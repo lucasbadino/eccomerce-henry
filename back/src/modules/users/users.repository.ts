@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 
 @Injectable()
 export class UsersRepository {
+
     @InjectRepository(Users)
     private usersRepository: Repository<Users>;
 
@@ -12,10 +13,10 @@ export class UsersRepository {
         const users = await this.usersRepository.find(
             {
                 select: ["id", "email", "name", "address", "phone", "country", "city"],
-                relations: {orders: true,},
+                relations: { orders: true, },
                 order: { id: "ASC" }
             }
-        ); 
+        );
         return users;
     }
     async getUserById(id: string) {
@@ -28,7 +29,11 @@ export class UsersRepository {
         const { password, ...rest } = user;
         return rest;
     }
-    async createUser(user: Users) {
+    async getUserByEmail(email: string) {
+        const user = await this.usersRepository.findOne({ where: { email } })
+        return user
+    }
+    async createUser(user: Users) {                
         const newUser = await this.usersRepository.create(user);
         await this.usersRepository.save(newUser);
         return newUser

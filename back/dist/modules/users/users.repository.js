@@ -34,6 +34,10 @@ let UsersRepository = class UsersRepository {
         const { password, ...rest } = user;
         return rest;
     }
+    async getUserByEmail(email) {
+        const user = await this.usersRepository.findOne({ where: { email } });
+        return user;
+    }
     async createUser(user) {
         const newUser = await this.usersRepository.create(user);
         await this.usersRepository.save(newUser);
