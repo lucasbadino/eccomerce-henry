@@ -9,21 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.singupDto = exports.LoginUserDto = void 0;
+exports.LoginUserDto = exports.singupDto = void 0;
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-class LoginUserDto {
-}
-exports.LoginUserDto = LoginUserDto;
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsEmail)(),
-    __metadata("design:type", String)
-], LoginUserDto.prototype, "email", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], LoginUserDto.prototype, "password", void 0);
 class singupDto {
 }
 exports.singupDto = singupDto;
@@ -79,4 +67,7 @@ __decorate([
     (0, class_validator_1.Length)(5, 20),
     __metadata("design:type", String)
 ], singupDto.prototype, "city", void 0);
+class LoginUserDto extends (0, swagger_1.PickType)(singupDto, ['email', 'password']) {
+}
+exports.LoginUserDto = LoginUserDto;
 //# sourceMappingURL=authDto.js.map

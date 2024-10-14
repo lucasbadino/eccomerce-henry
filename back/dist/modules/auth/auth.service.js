@@ -16,9 +16,6 @@ let AuthService = class AuthService {
     constructor(AuthRepository) {
         this.AuthRepository = AuthRepository;
     }
-    getAuth() {
-        return "auth";
-    }
     async singin(LoginUserDto) {
         return await this.AuthRepository.singin(LoginUserDto);
     }

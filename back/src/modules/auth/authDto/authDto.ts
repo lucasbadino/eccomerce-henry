@@ -1,14 +1,5 @@
+import { PickType } from "@nestjs/swagger";
 import { IsEmail, IsNotEmpty, IsNumber, IsString, IsStrongPassword, Length } from "class-validator";
-
-
-export class LoginUserDto {
-    @IsNotEmpty()
-    @IsEmail()
-    email: string;
-    @IsString()
-    @IsNotEmpty()
-    password: string;
-} 
 
 export class singupDto {
     @IsString()
@@ -48,3 +39,5 @@ export class singupDto {
     @Length(5, 20)
     city: string
 }
+export class LoginUserDto extends PickType(singupDto, ['email', 'password']) { }
+

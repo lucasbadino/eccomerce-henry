@@ -17,10 +17,10 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const usersDto_1 = require("./usersDto/usersDto");
 const auth_guard_1 = require("../auth/authGuard/auth.guard");
-const users_entity_1 = require("./users.entity");
 const roles_decorator_1 = require("../auth/authRoles/roles.decorator");
 const roles_auth_1 = require("../auth/authRoles/roles.auth");
 const role_guard_1 = require("../auth/authGuard/role.guard");
+const swagger_1 = require("@nestjs/swagger");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -53,12 +53,18 @@ let UserController = class UserController {
     }
     async updateUser(idNumber, UpdateUserData, res) {
         try {
-            const updatedUser = await this.userService.updateUser(idNumber, UpdateUserData);
-            const { id } = updatedUser;
-            return res.status(201).json(`Usuario actualizado con exito: ${id}`);
+            const user = await this.userService.getUserById(idNumber);
+            console.log(user);
         }
         catch (error) {
-            throw new common_1.HttpException('Error al actualizar el usuario', common_1.HttpStatus.NOT_FOUND);
+            throw new common_1.HttpException('Usuario no encontrado', common_1.HttpStatus.NOT_FOUND);
+        }
+        try {
+            const updatedUser = await this.userService.updateUser(idNumber, UpdateUserData);
+            return res.status(201).json(`Usuario actualizado con exito: ${updatedUser.id}`);
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al actualizar el usuario', common_1.HttpStatus.BAD_REQUEST);
         }
     }
     async deleteUser(idNumber, res) {
@@ -83,6 +89,7 @@ __decorate([
 ], UserController.prototype, "getUsers", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Res)()),
@@ -105,7 +112,7 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, users_entity_1.Users, Object]),
+    __metadata("design:paramtypes", [String, usersDto_1.UpdateUserData, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "updateUser", null);
 __decorate([
@@ -118,6 +125,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "deleteUser", null);
 exports.UserController = UserController = __decorate([
+    (0, swagger_1.ApiTags)('Users'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Controller)("users"),
     __metadata("design:paramtypes", [users_service_1.UserService])
 ], UserController);

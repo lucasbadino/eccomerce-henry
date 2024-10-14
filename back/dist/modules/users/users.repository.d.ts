@@ -1,4 +1,5 @@
 import { Users } from "./users.entity";
+import { UpdateUserData } from "./usersDto/usersDto";
 export declare class UsersRepository {
     private usersRepository;
     getUsers(): Promise<Users[]>;
@@ -15,11 +16,10 @@ export declare class UsersRepository {
     }>;
     getUserByEmail(email: string): Promise<Users>;
     createUser(user: Users): Promise<Users>;
-    uptadeUser(id: string, user: Users): Promise<{
+    uptadeUser(id: string, user: UpdateUserData): Promise<{
         id: string;
         name: string;
         email: string;
-        password: string;
         phone: number;
         country: string;
         address: string;

@@ -13,7 +13,7 @@ exports.CloudinaryService = void 0;
 const common_1 = require("@nestjs/common");
 const cloudinary_1 = require("cloudinary");
 const toString = require("buffer-to-stream");
-const products_service_1 = require("../modules/products/products.service");
+const products_service_1 = require("../products/products.service");
 let CloudinaryService = class CloudinaryService {
     constructor(productsService) {
         this.productsService = productsService;

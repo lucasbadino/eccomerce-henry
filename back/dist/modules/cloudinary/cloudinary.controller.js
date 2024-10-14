@@ -13,11 +13,13 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CloudinaryController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const cloudinary_service_1 = require("./cloudinary.service");
-const products_service_1 = require("../modules/products/products.service");
-const auth_guard_1 = require("../modules/auth/authGuard/auth.guard");
+const products_service_1 = require("../products/products.service");
+const auth_guard_1 = require("../auth/authGuard/auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let CloudinaryController = class CloudinaryController {
     constructor(cloudinaryService, productService) {
         this.cloudinaryService = cloudinaryService;
@@ -46,6 +48,7 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)(':id'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({
         validators: [
             new common_1.MaxFileSizeValidator({
@@ -64,6 +67,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CloudinaryController.prototype, "uploadImage", null);
 exports.CloudinaryController = CloudinaryController = __decorate([
+    (0, swagger_1.ApiTags)('Upload image'),
     (0, common_1.Controller)('files/uploadImage'),
     __metadata("design:paramtypes", [cloudinary_service_1.CloudinaryService,
         products_service_1.ProductService])

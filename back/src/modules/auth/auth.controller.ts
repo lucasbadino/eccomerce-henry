@@ -3,7 +3,8 @@ import { AuthService } from "./auth.service";
 import { Response } from "express";
 import { LoginUserDto, singupDto } from "./authDto/authDto";
 import { UserService } from "../users/users.service";
-
+import { ApiTags } from "@nestjs/swagger";
+@ApiTags('auth')
 @Controller("auth")
 export class AuthController {
     constructor(
@@ -11,13 +12,6 @@ export class AuthController {
         private readonly usersService: UserService
     ) { }
     @Get()
-    getAuth() {
-        try {
-            return this.authService.getAuth();
-        } catch (error) {
-            throw new HttpException('Error al iniciar sesion', HttpStatus.NOT_FOUND);
-        }
-    }
     @Post('signup')
     async singup(@Res() res: Response, @Body() user: singupDto) {
         const email = await this.usersService.getUserByEmail(user.email);

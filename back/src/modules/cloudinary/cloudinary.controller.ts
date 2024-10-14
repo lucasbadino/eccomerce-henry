@@ -1,10 +1,11 @@
-import { Controller, FileTypeValidator, HttpException, HttpStatus, Inject, MaxFileSizeValidator, Param, ParseFilePipe, ParseUUIDPipe, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, FileTypeValidator, HttpException, HttpStatus, MaxFileSizeValidator, Param, ParseFilePipe, ParseUUIDPipe, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from './cloudinary.service';
 import { Response } from 'express';
 import { ProductService } from 'src/modules/products/products.service';
 import { AuthGuard } from 'src/modules/auth/authGuard/auth.guard';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('Upload image')
 @Controller('files/uploadImage')
 export class CloudinaryController {
     constructor(

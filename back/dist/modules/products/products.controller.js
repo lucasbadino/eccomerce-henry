@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const products_service_1 = require("./products.service");
 const auth_guard_1 = require("../auth/authGuard/auth.guard");
@@ -20,6 +21,7 @@ const productsDto_1 = require("./productsDto/productsDto");
 const roles_decorator_1 = require("../auth/authRoles/roles.decorator");
 const roles_auth_1 = require("../auth/authRoles/roles.auth");
 const role_guard_1 = require("../auth/authGuard/role.guard");
+const swagger_1 = require("@nestjs/swagger");
 let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
@@ -45,7 +47,7 @@ let ProductController = class ProductController {
     async createProduct(CreateProductDto, res) {
         try {
             const newProduct = await this.productService.createProduct(CreateProductDto);
-            return await res.status(201).json({
+            return res.status(201).json({
                 message: 'Producto creado',
                 producto: newProduct
             });
@@ -82,6 +84,7 @@ let ProductController = class ProductController {
 exports.ProductController = ProductController;
 __decorate([
     (0, common_1.Get)(),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Query)("limit")),
     __param(2, (0, common_1.Query)("page")),
@@ -91,6 +94,7 @@ __decorate([
 ], ProductController.prototype, "getProducts", null);
 __decorate([
     (0, common_1.Get)(":id"),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -99,6 +103,7 @@ __decorate([
 ], ProductController.prototype, "getProductsById", null);
 __decorate([
     (0, common_1.Post)(),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -109,6 +114,7 @@ __decorate([
     (0, roles_decorator_1.Roles)(roles_auth_1.Role.Admin),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, role_guard_1.RoleGuard),
     (0, common_1.Put)(":id"),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Res)()),
@@ -119,6 +125,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Delete)(":id"),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -126,6 +133,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "deleteProduct", null);
 exports.ProductController = ProductController = __decorate([
+    (0, swagger_1.ApiTags)('Products'),
     (0, common_1.Controller)('products'),
     __metadata("design:paramtypes", [products_service_1.ProductService])
 ], ProductController);

@@ -16,7 +16,7 @@ const config_1 = require("@nestjs/config");
 const data_source_1 = require("./config/data-source");
 const seeds_module_1 = require("./seeders/seeds.module");
 const orders_module_1 = require("./modules/orders/orders.module");
-const cloudinary_module_1 = require("./cloudinary/cloudinary.module");
+const cloudinary_module_1 = require("./modules/cloudinary/cloudinary.module");
 const jwt_1 = require("@nestjs/jwt");
 let AppModule = class AppModule {
 };

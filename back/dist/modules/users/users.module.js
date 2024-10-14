@@ -13,7 +13,11 @@ const users_contoller_1 = require("./users.contoller");
 const users_repository_1 = require("./users.repository");
 const typeorm_1 = require("@nestjs/typeorm");
 const users_entity_1 = require("./users.entity");
+const express_openid_connect_1 = require("express-openid-connect");
 let UserModule = class UserModule {
+    configure(consumer) {
+        consumer.apply((0, express_openid_connect_1.requiresAuth)()).forRoutes('/users/auth0');
+    }
 };
 exports.UserModule = UserModule;
 exports.UserModule = UserModule = __decorate([

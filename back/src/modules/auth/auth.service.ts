@@ -6,9 +6,6 @@ import { LoginUserDto, singupDto } from "./authDto/authDto";
 export class AuthService {
 
     constructor(private readonly AuthRepository: AuthRepository) { }
-    getAuth() {
-        return "auth";
-    }
     async singin(LoginUserDto: LoginUserDto) {
         return await this.AuthRepository.singin(LoginUserDto);
     }

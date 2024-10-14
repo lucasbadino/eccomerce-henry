@@ -6,7 +6,8 @@ import { CreateProductDto, UpdateProductDto } from "./productsDto/productsDto";
 import { Roles } from "../auth/authRoles/roles.decorator";
 import { Role } from "../auth/authRoles/roles.auth";
 import { RoleGuard } from "../auth/authGuard/role.guard";
-
+import { ApiTags } from "@nestjs/swagger";
+@ApiTags('Products')
 @Controller('products')
 export class ProductController {
     constructor(private readonly productService: ProductService) { }
@@ -37,7 +38,7 @@ export class ProductController {
     async createProduct(@Body() CreateProductDto: CreateProductDto, @Res() res: Response) {
         try {
             const newProduct = await this.productService.createProduct(CreateProductDto);
-            return await res.status(201).json({
+            return res.status(201).json({
                 message: 'Producto creado',
                 producto: newProduct
             });

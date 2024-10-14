@@ -3,7 +3,6 @@ import { LoginUserDto, singupDto } from "./authDto/authDto";
 export declare class AuthService {
     private readonly AuthRepository;
     constructor(AuthRepository: AuthRepository);
-    getAuth(): string;
     singin(LoginUserDto: LoginUserDto): Promise<{
         success: boolean;
         token: string;

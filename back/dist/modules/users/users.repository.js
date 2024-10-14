@@ -45,8 +45,12 @@ let UsersRepository = class UsersRepository {
     }
     async uptadeUser(id, user) {
         const updatedUser = await this.getUserById(id);
+        if (!updatedUser) {
+            throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
+        }
         if (updatedUser) {
-            return { ...updatedUser, ...user };
+            await this.usersRepository.update(id, user);
+            return updatedUser;
         }
         throw new Error("User not found");
     }

@@ -7,7 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { postgresConfig } from './config/data-source'
 import { SeedsModule } from './seeders/seeds.module';
 import { OrdersModule } from './modules/orders/orders.module';
-import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
 import { JwtModule } from '@nestjs/jwt';
 
 

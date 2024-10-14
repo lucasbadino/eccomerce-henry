@@ -1,14 +1,16 @@
-import { Controller, Delete, Get, Post, Put, Res, Param, Body, UseGuards, ParseUUIDPipe, HttpException, HttpStatus } from "@nestjs/common";
+import { Controller, Delete, Get, Post, Put, Res, Param, Body, UseGuards, ParseUUIDPipe, HttpException, HttpStatus, Req } from "@nestjs/common";
 import { UserService } from "./users.service";
-import { CreateUserDto } from "./usersDto/usersDto";
+import { CreateUserDto, UpdateUserData } from "./usersDto/usersDto";
 import { Response } from "express";
 import { AuthGuard } from "../auth/authGuard/auth.guard";
 import { Users } from "./users.entity";
 import { Roles } from "../auth/authRoles/roles.decorator";
 import { Role } from "../auth/authRoles/roles.auth";
 import { RoleGuard } from "../auth/authGuard/role.guard";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
-
+@ApiTags('Users')
+@ApiBearerAuth()
 @Controller("users")
 export class UserController {
     constructor(private readonly userService: UserService) { }
@@ -22,7 +24,9 @@ export class UserController {
             throw new HttpException('Error al obtener los usuarios', HttpStatus.BAD_REQUEST);
         }
     }
+
     @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @Get(":id")
     async getUserById(@Param("id") id: string, @Res() res: Response) {
         try {
@@ -46,13 +50,18 @@ export class UserController {
     }
     @UseGuards(AuthGuard)
     @Put(":id")
-    async updateUser(@Param("id", ParseUUIDPipe) idNumber: string, @Body() UpdateUserData: Users, @Res() res: Response) {
+    async updateUser(@Param("id", ParseUUIDPipe) idNumber: string, @Body() UpdateUserData: UpdateUserData, @Res() res: Response) {
+        try {
+            const user = await this.userService.getUserById(idNumber);
+            console.log(user);
+        } catch (error) {
+            throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
+        }
         try {
             const updatedUser = await this.userService.updateUser(idNumber, UpdateUserData);
-            const { id } = updatedUser
-            return res.status(201).json(`Usuario actualizado con exito: ${id}`);
+            return res.status(201).json(`Usuario actualizado con exito: ${updatedUser.id}`);
         } catch (error) {
-            throw new HttpException('Error al actualizar el usuario', HttpStatus.NOT_FOUND);
+            throw new HttpException('Error al actualizar el usuario', HttpStatus.BAD_REQUEST);
         }
     }
     @UseGuards(AuthGuard)

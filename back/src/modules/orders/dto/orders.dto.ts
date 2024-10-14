@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsString, IsUUID, Length } from "class-validator"
+import { IsArray, IsNotEmpty, IsUUID, Length } from "class-validator"
 import { Products } from "src/modules/products/products.entity";
 
 export class CreateOrderDto {
