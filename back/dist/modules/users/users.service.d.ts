@@ -4,7 +4,7 @@ export declare class UserService {
     private readonly usersRepository;
     constructor(usersRepository: UsersRepository);
     getUsers(): Promise<import("./users.entity").Users[]>;
-    getUserById(id: any): Promise<{
+    getUserById(id: string): Promise<{
         id: string;
         name: string;
         email: string;
@@ -28,7 +28,7 @@ export declare class UserService {
         role: import("../auth/authRoles/roles.auth").Role;
         orders: import("../orders/orders.entity").Orders[];
     }>;
-    deleteUser(id: any): Promise<{
+    deleteUser(id: string): Promise<{
         id: string;
         name: string;
         email: string;

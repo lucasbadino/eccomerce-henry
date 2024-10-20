@@ -15,6 +15,7 @@ const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
 const products_entity_1 = require("../products/products.entity");
 const orders_entity_1 = require("../orders/orders.entity");
+const swagger_1 = require("@nestjs/swagger");
 let OrderDetails = class OrderDetails {
     constructor() {
         this.id = (0, uuid_1.v4)();
@@ -25,10 +26,20 @@ let OrderDetails = class OrderDetails {
 };
 exports.OrderDetails = OrderDetails;
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '123e4567-e89b-12d3-a456-426655440000',
+        description: 'OrderDetail id is automatically generated',
+        required: true
+    }),
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
 ], OrderDetails.prototype, "id", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 10.50,
+        description: 'price of the product',
+        required: true
+    }),
     (0, typeorm_1.Column)({
         type: 'decimal',
         precision: 10,

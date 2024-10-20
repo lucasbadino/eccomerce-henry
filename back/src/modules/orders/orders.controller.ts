@@ -1,9 +1,20 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Res, UseGuards } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    Get,
+    HttpException,
+    HttpStatus,
+    Param,
+    ParseUUIDPipe,
+    Post,
+    Res,
+    UseGuards,
+} from "@nestjs/common";
 import { OrdersService } from "./order.service";
 import { CreateOrderDto } from "./dto/orders.dto";
 import { Response } from "express";
 import { AuthGuard } from "../auth/authGuard/auth.guard";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 @ApiTags('orders')
 @Controller('orders')
 export class OrdersController {
@@ -18,6 +29,7 @@ export class OrdersController {
             throw new HttpException('Error al obtener la orden', HttpStatus.NOT_FOUND);
         }
     }
+    @ApiBearerAuth()
     @UseGuards(AuthGuard)
     @Post()
     async createOrder(@Body() CreateOrderDto: CreateOrderDto, @Res() res: Response) {

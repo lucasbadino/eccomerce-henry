@@ -24,12 +24,10 @@ let UsersRepository = class UsersRepository {
         return users;
     }
     async getUserById(id) {
-        const user = await this.usersRepository.findOneBy({
-            id
-        });
-        ;
+        const user = await this.usersRepository.findOne({ where: { id } });
+        console.log(user);
         if (!user) {
-            throw new Error("User not found");
+            throw new common_1.NotFoundException("User not found");
         }
         const { password, ...rest } = user;
         return rest;
@@ -57,7 +55,7 @@ let UsersRepository = class UsersRepository {
     async deleteUser(id) {
         const deletedUser = await this.getUserById(id);
         if (!deletedUser) {
-            throw new Error("User not found");
+            throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
         }
         await this.usersRepository.delete(id);
         return deletedUser;

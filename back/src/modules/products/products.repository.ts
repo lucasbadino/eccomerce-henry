@@ -37,25 +37,6 @@ export class ProductsRepository {
 
 
     }
-    async buyProduct(products) {
-        try {
-            let totalPrice = 0;
-            for (const prod of products) {
-                const product = await this.getProductsById(prod.id);
-                if (!product) {
-                    throw Error('Product not found');
-                }
-                if (product.stock > 0) {
-                    totalPrice += product.price;
-                    product.stock -= 1;
-                    await this.productsRepository.save(product);
-                }
-            }
-            return { totalPrice, products }
-        } catch (error) {
-
-        }
-    }
     async updateImageProduct(id: string, url: string) {
         try {
             return await this.productsRepository.update({ id }, { imgUrl: url })

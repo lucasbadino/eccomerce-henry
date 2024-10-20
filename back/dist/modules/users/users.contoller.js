@@ -88,7 +88,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUsers", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),

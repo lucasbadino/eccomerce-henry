@@ -7,9 +7,5 @@ export declare class ProductsRepository {
     createProduct(product: CreateProductDto): Promise<Products>;
     updateProduct(id: string, UpdateProductDto: UpdateProductDto): Promise<import("typeorm").UpdateResult>;
     deleteProduct(id: string): Promise<Products>;
-    buyProduct(products: any): Promise<{
-        totalPrice: number;
-        products: any;
-    }>;
     updateImageProduct(id: string, url: string): Promise<import("typeorm").UpdateResult>;
 }

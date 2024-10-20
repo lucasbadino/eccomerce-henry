@@ -37,7 +37,7 @@ export class UserController {
             throw new HttpException('Error al obtener el usuario', HttpStatus.NOT_FOUND);
         }
     }
-
+    
     @Post()
     async createUser(@Res() res: Response, @Body() CreateUserDto: CreateUserDto) {
         try {
@@ -53,7 +53,6 @@ export class UserController {
     async updateUser(@Param("id", ParseUUIDPipe) idNumber: string, @Body() UpdateUserData: UpdateUserData, @Res() res: Response) {
         try {
             const user = await this.userService.getUserById(idNumber);
-            console.log(user);
         } catch (error) {
             throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
         }

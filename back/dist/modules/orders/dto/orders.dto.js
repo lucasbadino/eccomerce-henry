@@ -11,21 +11,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateOrderDto = void 0;
 const openapi = require("@nestjs/swagger");
+const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class CreateOrderDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { userId: { required: true, type: () => String }, products: { required: true, type: () => [require("../../products/products.entity").Products], minLength: 1 } };
+        return { userId: { required: true, type: () => String }, products: { required: true, type: () => [require("../../products/products.entity").Products] } };
     }
 }
 exports.CreateOrderDto = CreateOrderDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '123e4567-e89b-12d3-a456-426655440000',
+        description: 'User id',
+        required: true
+    }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsUUID)(),
     __metadata("design:type", String)
 ], CreateOrderDto.prototype, "userId", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
-    (0, class_validator_1.Length)(1),
     __metadata("design:type", Array)
 ], CreateOrderDto.prototype, "products", void 0);
 //# sourceMappingURL=orders.dto.js.map

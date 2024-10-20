@@ -16,18 +16,34 @@ class singupDto {
 }
 exports.singupDto = singupDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'John Doe',
+        description: 'User name',
+        required: true
+    }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.Length)(3, 80),
     __metadata("design:type", String)
 ], singupDto.prototype, "name", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'bXJk6@example.com',
+        description: 'User email',
+        required: true
+    }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsEmail)(),
     (0, class_validator_1.Length)(3, 80),
     __metadata("design:type", String)
 ], singupDto.prototype, "email", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Example123!',
+        description: 'User password',
+        required: true
+    }),
+    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsStrongPassword)({
         minLowercase: 1,
         minUppercase: 1,
@@ -38,6 +54,11 @@ __decorate([
     __metadata("design:type", String)
 ], singupDto.prototype, "password", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Example123!',
+        description: 'User password',
+        required: true
+    }),
     (0, class_validator_1.IsStrongPassword)({
         minLowercase: 1,
         minUppercase: 1,
@@ -48,21 +69,41 @@ __decorate([
     __metadata("design:type", String)
 ], singupDto.prototype, "confirmPassword", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Example123!',
+        description: 'User password',
+        required: true
+    }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.Length)(3, 80),
     __metadata("design:type", String)
 ], singupDto.prototype, "address", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 3574414058,
+        description: 'User phone',
+        required: true
+    }),
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
 ], singupDto.prototype, "phone", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Argentina',
+        description: 'User country',
+        required: true
+    }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.Length)(5, 20),
     __metadata("design:type", String)
 ], singupDto.prototype, "country", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Buenos Aires',
+        description: 'User city',
+        required: true
+    }),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.Length)(5, 20),
     __metadata("design:type", String)

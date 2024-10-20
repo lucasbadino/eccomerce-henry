@@ -1,15 +1,37 @@
-import { PickType } from "@nestjs/swagger";
+import { ApiProperty, PickType } from "@nestjs/swagger";
 import { IsEmail, IsNotEmpty, IsNumber, IsString, IsStrongPassword, Length } from "class-validator";
 
 export class singupDto {
+    @ApiProperty(
+        {
+            example: 'John Doe',
+            description: 'User name',
+            required: true
+        }
+    )
     @IsString()
     @IsNotEmpty()
     @Length(3, 80)
     name: string
+    @ApiProperty(
+        {
+            example: 'bXJk6@example.com',
+            description: 'User email',
+            required: true
+        }
+    )
     @IsNotEmpty()
     @IsEmail()
     @Length(3, 80)
     email: string
+    @ApiProperty(
+        {
+            example: 'Example123!',
+            description: 'User password',
+            required: true
+        }
+    )
+    @IsNotEmpty()
     @IsStrongPassword({
         minLowercase: 1,
         minUppercase: 1,
@@ -18,6 +40,13 @@ export class singupDto {
     })
     @Length(8, 15)
     password: string
+    @ApiProperty(
+        {
+            example: 'Example123!',
+            description: 'User password',
+            required: true
+        }
+    )
     @IsStrongPassword({
         minLowercase: 1,
         minUppercase: 1,
@@ -26,15 +55,43 @@ export class singupDto {
     })
     @Length(8, 15)
     confirmPassword: string
+    @ApiProperty(
+        {
+            example: 'Example123!',
+            description: 'User password',
+            required: true
+        }
+    )
     @IsString()
     @Length(3, 80)
     address: string
+    @ApiProperty(
+        {
+            example: 3574414058,
+            description: 'User phone',
+            required: true
+        }
+    )
     @IsNumber()
     @IsNotEmpty()
     phone: number
+    @ApiProperty(
+        {
+            example: 'Argentina',
+            description: 'User country',
+            required: true
+        }
+    )
     @IsString()
     @Length(5, 20)
     country: string
+    @ApiProperty(
+        {
+            example: 'Buenos Aires',
+            description: 'User city',
+            required: true
+        }
+    )
     @IsString()
     @Length(5, 20)
     city: string

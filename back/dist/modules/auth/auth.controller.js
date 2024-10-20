@@ -52,7 +52,6 @@ let AuthController = class AuthController {
 };
 exports.AuthController = AuthController;
 __decorate([
-    (0, common_1.Get)(),
     (0, common_1.Post)('signup'),
     openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Res)()),

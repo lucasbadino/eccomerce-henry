@@ -14,6 +14,7 @@ const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 const uuid_1 = require("uuid");
 const products_entity_1 = require("../products/products.entity");
+const swagger_1 = require("@nestjs/swagger");
 let Categories = class Categories {
     constructor() {
         this.id = (0, uuid_1.v4)();
@@ -24,10 +25,20 @@ let Categories = class Categories {
 };
 exports.Categories = Categories;
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: '123e4567-e89b-12d3-a456-426655440000',
+        description: 'Category id is automatically generated',
+        required: true
+    }),
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
 ], Categories.prototype, "id", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Electronics',
+        description: 'Category name',
+        required: true
+    }),
     (0, typeorm_1.Column)({
         length: 50
     }),

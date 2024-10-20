@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Users } from "./users.entity";
 import { Repository } from "typeorm";
@@ -21,11 +21,9 @@ export class UsersRepository {
         return users;
     }
     async getUserById(id: string) {
-        const user = await this.usersRepository.findOneBy({
-            id
-        });;
+        const user = await this.usersRepository.findOne({ where: { id } })        
         if (!user) {
-            throw new Error("User not found");
+            throw new NotFoundException("User not found")
         }
         const { password, ...rest } = user;
         return rest;
@@ -53,7 +51,7 @@ export class UsersRepository {
     async deleteUser(id: string) {
         const deletedUser = await this.getUserById(id)
         if (!deletedUser) {
-            throw new Error("User not found");
+            throw new HttpException("User not found", HttpStatus.NOT_FOUND)
         }
         await this.usersRepository.delete(id)
         return deletedUser;

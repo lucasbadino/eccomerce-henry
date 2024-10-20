@@ -31,9 +31,6 @@ let ProductService = class ProductService {
     async updateProduct(id, UpdateProductDto) {
         return await this.productsRepository.updateProduct(id, UpdateProductDto);
     }
-    async buyProduct(product) {
-        return await this.productsRepository.buyProduct(product);
-    }
     async updateImageProduct(id, url) {
         return await this.productsRepository.updateImageProduct(id, url);
     }

@@ -11,7 +11,6 @@ export class AuthController {
         private readonly authService: AuthService,
         private readonly usersService: UserService
     ) { }
-    @Get()
     @Post('signup')
     async singup(@Res() res: Response, @Body() user: singupDto) {
         const email = await this.usersService.getUserByEmail(user.email);

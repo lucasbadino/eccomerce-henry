@@ -23,9 +23,6 @@ export class ProductService {
     async updateProduct(id: string, UpdateProductDto: UpdateProductDto) {
         return await this.productsRepository.updateProduct(id, UpdateProductDto);
     }
-    async buyProduct(product: Products[]) {
-        return await this.productsRepository.buyProduct(product);
-    }
     async updateImageProduct(id: string, url) {
         return await this.productsRepository.updateImageProduct(id, url);
     }

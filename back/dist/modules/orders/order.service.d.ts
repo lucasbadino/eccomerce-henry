@@ -3,6 +3,6 @@ import { CreateOrderDto } from "./dto/orders.dto";
 export declare class OrdersService {
     private ordersRepository;
     constructor(ordersRepository: OrdersRepository);
-    getOrder(id: string): Promise<import("./orders.entity").Orders>;
+    getOrder(id: string): Promise<any>;
     createOrderService(CreateOrderDto: CreateOrderDto): Promise<import("./orders.entity").Orders>;
 }

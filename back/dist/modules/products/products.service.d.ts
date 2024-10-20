@@ -9,9 +9,5 @@ export declare class ProductService {
     createProduct(product: CreateProductDto): Promise<Products>;
     deleteProduct(id: string): Promise<Products>;
     updateProduct(id: string, UpdateProductDto: UpdateProductDto): Promise<import("typeorm").UpdateResult>;
-    buyProduct(product: Products[]): Promise<{
-        totalPrice: number;
-        products: any;
-    }>;
     updateImageProduct(id: string, url: any): Promise<import("typeorm").UpdateResult>;
 }
