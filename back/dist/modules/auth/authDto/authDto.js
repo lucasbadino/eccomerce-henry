@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginUserDto = exports.singupDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
+const roles_auth_1 = require("../authRoles/roles.auth");
 class singupDto {
 }
 exports.singupDto = singupDto;
@@ -110,7 +111,7 @@ __decorate([
 ], singupDto.prototype, "city", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 'user',
+        example: roles_auth_1.Role.Admin,
         description: 'User role',
         default: 'user',
     }),

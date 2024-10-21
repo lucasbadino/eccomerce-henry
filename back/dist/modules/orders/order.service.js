@@ -16,6 +16,9 @@ let OrdersService = class OrdersService {
     constructor(ordersRepository) {
         this.ordersRepository = ordersRepository;
     }
+    getOrders() {
+        return this.ordersRepository.getOrders();
+    }
     async getOrder(id) {
         return await this.ordersRepository.getOrder(id);
     }

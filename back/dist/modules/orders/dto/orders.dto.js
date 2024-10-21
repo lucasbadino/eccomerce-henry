@@ -31,6 +31,18 @@ __decorate([
 ], CreateOrderDto.prototype, "userId", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
+    (0, swagger_1.ApiProperty)({
+        example: [
+            {
+                "id": "9164a213-0d75-4da5-8a10-f34b16910042",
+                "name": "Razer Viper",
+                "description": "The best mouse in the world",
+                "price": "49.99",
+                "stock": 12,
+                "imgUrl": "https://via.placeholder.com/300"
+            }
+        ]
+    }),
     __metadata("design:type", Array)
 ], CreateOrderDto.prototype, "products", void 0);
 //# sourceMappingURL=orders.dto.js.map

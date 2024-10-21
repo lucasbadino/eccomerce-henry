@@ -29,7 +29,7 @@ let CloudinaryController = class CloudinaryController {
         try {
             const user = await this.productService.getPruductsById(id);
             if (!user) {
-                throw new common_1.HttpException('Error al subir el archivo', common_1.HttpStatus.NOT_FOUND);
+                throw new common_1.HttpException('Usuario no encontrado', common_1.HttpStatus.NOT_FOUND);
             }
             const result = await this.cloudinaryService.uploadFile(file);
             await this.productService.updateImageProduct(id, result.url);
@@ -47,6 +47,10 @@ exports.CloudinaryController = CloudinaryController;
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Agrega una imagen al producto' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Creado con exito' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Usuario no encontrado' }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Error al subir el archivo' }),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({

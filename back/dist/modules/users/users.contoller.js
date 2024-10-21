@@ -82,6 +82,9 @@ __decorate([
     (0, roles_decorator_1.Roles)(roles_auth_1.Role.Admin),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, role_guard_1.RoleGuard),
     (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Obtener todos los usuarios' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Usuarios obtenidos con exito' }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Error al obtener los usuarios' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
@@ -90,6 +93,9 @@ __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Get)(":id"),
+    (0, swagger_1.ApiOperation)({ summary: 'Obtener un usuario por id' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Usuario obtenido con exito' }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Error al obtener el usuario' }),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -98,6 +104,9 @@ __decorate([
 ], UserController.prototype, "getUserById", null);
 __decorate([
     (0, common_1.Post)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Crear un usuario' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Usuario creado con exito' }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Error al crear el usuario' }),
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -107,6 +116,10 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Put)(":id"),
+    (0, swagger_1.ApiOperation)({ summary: 'Actualizar un usuario por id' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Usuario actualizado con exito' }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Error al actualizar el usuario' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Usuario no encontrado' }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Res)()),
@@ -117,6 +130,9 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Delete)(":id"),
+    (0, swagger_1.ApiOperation)({ summary: 'Eliminar un usuario por id' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Usuario eliminado con exito' }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Error al eliminar el usuario' }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

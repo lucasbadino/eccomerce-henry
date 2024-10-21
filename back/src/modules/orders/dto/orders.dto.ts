@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsUUID, Length } from "class-validator"
+import { IsArray, IsNotEmpty, IsUUID } from "class-validator"
 import { Products } from "../../../modules/products/products.entity";
+
 
 export class CreateOrderDto {
     @ApiProperty({
@@ -10,7 +11,22 @@ export class CreateOrderDto {
     })
     @IsNotEmpty()
     @IsUUID()
+
     userId: string;
     @IsArray()
+    @ApiProperty({
+        example:
+            [
+                {
+                    "id": "9164a213-0d75-4da5-8a10-f34b16910042",
+                    "name": "Razer Viper",
+                    "description": "The best mouse in the world",
+                    "price": "49.99",
+                    "stock": 12,
+                    "imgUrl": "https://via.placeholder.com/300"
+                }
+            ]
+
+    })
     products: Products[]
 }

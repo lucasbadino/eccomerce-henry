@@ -1,5 +1,6 @@
 import { ApiProperty, PickType } from "@nestjs/swagger";
 import { IsEmail, IsNotEmpty, IsNumber, IsString, IsStrongPassword, Length } from "class-validator";
+import { Role } from "../authRoles/roles.auth";
 
 export class singupDto {
     @ApiProperty(
@@ -97,7 +98,7 @@ export class singupDto {
     city: string
     @ApiProperty(
         {
-            example: 'user',
+            example: Role.Admin,
             description: 'User role',
             default: 'user',
         }

@@ -29,7 +29,7 @@ exports.OrdersModule = OrdersModule = __decorate([
             products_module_1.ProductModule,
         ],
         controllers: [orders_controller_1.OrdersController],
-        providers: [order_service_1.OrdersService, orders_repository_1.OrdersRepository],
+        providers: [order_service_1.OrdersService, orders_repository_1.OrdersRepository, products_module_1.ProductModule, users_module_1.UserModule],
     })
 ], OrdersModule);
 //# sourceMappingURL=orders.module.js.map

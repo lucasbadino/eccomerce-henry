@@ -46,13 +46,18 @@ let AuthController = class AuthController {
             return res.status(201).json(success);
         }
         catch (error) {
-            throw new common_1.HttpException('Usuario o contraseña incorrecta', common_1.HttpStatus.NOT_FOUND);
+            throw new common_1.HttpException('Usuario o contraseña incorrecta', common_1.HttpStatus.BAD_REQUEST);
         }
     }
 };
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('signup'),
+    (0, swagger_1.ApiOperation)({ summary: 'Crear un usuario' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'usuario creado' }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Las contraseñas no coinciden' }),
+    (0, swagger_1.ApiResponse)({ status: 409, description: 'El email ya existe' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Error al crear el usuario' }),
     openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Body)()),
@@ -61,6 +66,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "singup", null);
 __decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Iniciar sesion' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Sesion iniciada' }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Usuario o contraseña incorrecta' }),
     (0, common_1.Post)("signin"),
     openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),

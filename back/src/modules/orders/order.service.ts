@@ -6,6 +6,9 @@ import { CreateOrderDto } from "./dto/orders.dto";
 export class OrdersService {
     
     constructor(private ordersRepository: OrdersRepository) { }
+    getOrders() {
+     return this.ordersRepository.getOrders();
+    }
     async getOrder(id: string) {
         return await this.ordersRepository.getOrder(id);
     }

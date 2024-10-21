@@ -4,7 +4,7 @@ import { CreateUserDto, UpdateUserData } from "./usersDto/usersDto";
 import { Response } from "express";
 import { AuthGuard } from "../auth/authGuard/auth.guard";
 import { Users } from "./users.entity";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { RoleGuard } from "../auth/authGuard/role.guard";
 import { Roles } from "../auth/authRoles/roles.decorator";
 import { Role } from "../auth/authRoles/roles.auth";
@@ -17,6 +17,9 @@ export class UserController {
     @Roles(Role.Admin)
     @UseGuards(AuthGuard, RoleGuard)
     @Get()
+    @ApiOperation({ summary: 'Obtener todos los usuarios' })
+    @ApiResponse({ status: 200, description: 'Usuarios obtenidos con exito' })
+    @ApiResponse({ status: 400, description: 'Error al obtener los usuarios' })
     async getUsers(): Promise<Users[]> {
         try {
             return await this.userService.getUsers();
@@ -28,6 +31,9 @@ export class UserController {
     @UseGuards(AuthGuard)
     @ApiBearerAuth()
     @Get(":id")
+    @ApiOperation({ summary: 'Obtener un usuario por id' })
+    @ApiResponse({ status: 200, description: 'Usuario obtenido con exito' })
+    @ApiResponse({ status: 400, description: 'Error al obtener el usuario' })
     async getUserById(@Param("id") id: string, @Res() res: Response) {
         try {
             const user = await this.userService.getUserById(id);
@@ -37,8 +43,11 @@ export class UserController {
             throw new HttpException('Error al obtener el usuario', HttpStatus.NOT_FOUND);
         }
     }
-    
+
     @Post()
+    @ApiOperation({ summary: 'Crear un usuario' })
+    @ApiResponse({ status: 201, description: 'Usuario creado con exito' })
+    @ApiResponse({ status: 400, description: 'Error al crear el usuario' })
     async createUser(@Res() res: Response, @Body() CreateUserDto: CreateUserDto) {
         try {
             const { id } = await this.userService.CreateUser(CreateUserDto);
@@ -50,6 +59,10 @@ export class UserController {
     }
     @UseGuards(AuthGuard)
     @Put(":id")
+    @ApiOperation({ summary: 'Actualizar un usuario por id' })
+    @ApiResponse({ status: 201, description: 'Usuario actualizado con exito' })
+    @ApiResponse({ status: 400, description: 'Error al actualizar el usuario' })
+    @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
     async updateUser(@Param("id", ParseUUIDPipe) idNumber: string, @Body() UpdateUserData: UpdateUserData, @Res() res: Response) {
         try {
             const user = await this.userService.getUserById(idNumber);
@@ -65,6 +78,9 @@ export class UserController {
     }
     @UseGuards(AuthGuard)
     @Delete(":id")
+    @ApiOperation({ summary: 'Eliminar un usuario por id' })
+    @ApiResponse({ status: 200, description: 'Usuario eliminado con exito' })
+    @ApiResponse({ status: 400, description: 'Error al eliminar el usuario' })
     async deleteUser(@Param("id", ParseUUIDPipe) idNumber: string, @Res() res: Response) {
         try {
             const deletedUser = await this.userService.deleteUser(idNumber);

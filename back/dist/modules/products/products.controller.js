@@ -93,6 +93,9 @@ let ProductController = class ProductController {
 exports.ProductController = ProductController;
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Obtener todos los productos' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Todos los productos', type: [productsDto_1.CreateProductDto] }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'No se encontraron productos' }),
     openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -101,6 +104,9 @@ __decorate([
 ], ProductController.prototype, "getProducts", null);
 __decorate([
     (0, common_1.Get)(":id"),
+    (0, swagger_1.ApiOperation)({ summary: 'Obtener un solo producto por id' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Obtiene un solo producto', type: [productsDto_1.CreateProductDto] }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'No se encontraron productos' }),
     openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Res)()),
@@ -110,6 +116,9 @@ __decorate([
 ], ProductController.prototype, "getProductsById", null);
 __decorate([
     (0, common_1.Post)(),
+    (0, swagger_1.ApiOperation)({ summary: 'Crear un nuevo producto' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Crea un nuevo producto', type: [productsDto_1.CreateProductDto] }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Error al crear el producto' }),
     openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
@@ -121,6 +130,9 @@ __decorate([
     (0, roles_decorator_1.Roles)(roles_auth_1.Role.Admin),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard, role_guard_1.RoleGuard),
     (0, common_1.Put)(":id"),
+    (0, swagger_1.ApiOperation)({ summary: 'Modificar un producto' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'Modifica un producto', type: [productsDto_1.CreateProductDto] }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Error al modificar el producto' }),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Body)()),
@@ -132,6 +144,9 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Delete)(":id"),
+    (0, swagger_1.ApiOperation)({ summary: 'Eliminar un producto' }),
+    (0, swagger_1.ApiResponse)({ status: 200, description: 'Elimina un producto' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'No se encontro el producto ' }),
     openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Res)()),

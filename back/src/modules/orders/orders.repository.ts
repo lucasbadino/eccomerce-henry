@@ -10,6 +10,7 @@ import { ProductService } from "../products/products.service";
 
 @Injectable()
 export class OrdersRepository {
+    
     constructor(
         @InjectRepository(Users)
         private usersRepository: Repository<Users>,
@@ -20,6 +21,16 @@ export class OrdersRepository {
         @InjectRepository(OrderDetails)
         private orderDetailsRepository: Repository<OrderDetails>
     ) { }
+    async getOrders() {
+        return await this.ordersRepository.find({
+            relations: {
+                user: true,
+                orderDetail: {
+                    products: true
+                }
+            }
+        })
+    }
     async addOrder(CreateOrderDto) {
         try {
             const { userId, products } = CreateOrderDto

@@ -27,6 +27,16 @@ let OrdersRepository = class OrdersRepository {
         this.productsRepository = productsRepository;
         this.orderDetailsRepository = orderDetailsRepository;
     }
+    async getOrders() {
+        return await this.ordersRepository.find({
+            relations: {
+                user: true,
+                orderDetail: {
+                    products: true
+                }
+            }
+        });
+    }
     async addOrder(CreateOrderDto) {
         try {
             const { userId, products } = CreateOrderDto;

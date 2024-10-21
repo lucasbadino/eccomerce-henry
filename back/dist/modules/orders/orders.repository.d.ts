@@ -9,6 +9,7 @@ export declare class OrdersRepository {
     private productsRepository;
     private orderDetailsRepository;
     constructor(usersRepository: Repository<Users>, ordersRepository: Repository<Orders>, productsRepository: Repository<Products>, orderDetailsRepository: Repository<OrderDetails>);
+    getOrders(): Promise<Orders[]>;
     addOrder(CreateOrderDto: any): Promise<Orders>;
     getOrder(id: string): Promise<any>;
     buyProduct(products: any): Promise<{

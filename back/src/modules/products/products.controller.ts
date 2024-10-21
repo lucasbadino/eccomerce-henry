@@ -6,12 +6,15 @@ import { CreateProductDto, UpdateProductDto } from "./productsDto/productsDto";
 import { Roles } from "../auth/authRoles/roles.decorator";
 import { Role } from "../auth/authRoles/roles.auth";
 import { RoleGuard } from "../auth/authGuard/role.guard";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 @ApiTags('Products')
 @Controller('products')
 export class ProductController {
     constructor(private readonly productService: ProductService) { }
     @Get()
+    @ApiOperation({ summary: 'Obtener todos los productos' })
+    @ApiResponse({ status: 200, description: 'Todos los productos', type: [CreateProductDto] })
+    @ApiResponse({ status: 404, description: 'No se encontraron productos' })
     async getProducts(
         @Res() res?: Response,
     ) {
@@ -26,6 +29,9 @@ export class ProductController {
         }
     }
     @Get(":id")
+    @ApiOperation({ summary: 'Obtener un solo producto por id' })
+    @ApiResponse({ status: 200, description: 'Obtiene un solo producto', type: [CreateProductDto] })
+    @ApiResponse({ status: 404, description: 'No se encontraron productos' })
     async getProductsById(@Param("id", ParseUUIDPipe) id: string, @Res() res?: Response) {
         try {
             const product = await this.productService.getPruductsById(id);
@@ -38,6 +44,9 @@ export class ProductController {
         }
     }
     @Post()
+    @ApiOperation({ summary: 'Crear un nuevo producto' })
+    @ApiResponse({ status: 201, description: 'Crea un nuevo producto', type: [CreateProductDto] })
+    @ApiResponse({ status: 400, description: 'Error al crear el producto' })
     async createProduct(@Body() CreateProductDto: CreateProductDto, @Res() res: Response) {
         try {
             const newProduct = await this.productService.createProduct(CreateProductDto);
@@ -53,6 +62,9 @@ export class ProductController {
     @Roles(Role.Admin)
     @UseGuards(AuthGuard, RoleGuard)
     @Put(":id")
+    @ApiOperation({ summary: 'Modificar un producto' })
+    @ApiResponse({ status: 201, description: 'Modifica un producto', type: [CreateProductDto] })
+    @ApiResponse({ status: 400, description: 'Error al modificar el producto' })
     async updateProduct(@Param("id", ParseUUIDPipe) id: string, @Body() UpdateProductDto: UpdateProductDto, @Res() res: Response) {
         try {
             const updatedProduct = await this.productService.updateProduct(id, UpdateProductDto);
@@ -66,6 +78,9 @@ export class ProductController {
     }
     @UseGuards(AuthGuard)
     @Delete(":id")
+    @ApiOperation({ summary: 'Eliminar un producto' })
+    @ApiResponse({ status: 200, description: 'Elimina un producto' })
+    @ApiResponse({ status: 404, description: 'No se encontro el producto ' })
     async deleteProduct(@Param("id", ParseUUIDPipe) id: string, @Res() res?: Response) {
         try {
             const deletedProduct = await this.productService.deleteProduct(id);
