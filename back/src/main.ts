@@ -9,6 +9,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { UsersSeed } from './seeders/users/users.seed';
 import { LoggerInterceptor } from './interceptors/logger.interceptor';
 
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
@@ -51,6 +52,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
-  await app.listen(3000 | 3002);
+  await app.listen(3000 | 3001 );
 }
 bootstrap();
