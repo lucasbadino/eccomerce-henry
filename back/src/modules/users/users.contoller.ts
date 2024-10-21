@@ -49,12 +49,19 @@ export class UserController {
     @ApiResponse({ status: 201, description: 'Usuario creado con exito' })
     @ApiResponse({ status: 400, description: 'Error al crear el usuario' })
     async createUser(@Res() res: Response, @Body() CreateUserDto: CreateUserDto) {
+        const email = await this.userService.getUserByEmail(CreateUserDto.email);
+        if (email) {
+            throw new HttpException('El email ya existe', HttpStatus.CONFLICT);
+        }
+        if (CreateUserDto.password !== CreateUserDto.confirmPassword) {
+            throw new HttpException('Las contraseñas no coinciden', HttpStatus.BAD_REQUEST);
+        }
         try {
-            const { id } = await this.userService.CreateUser(CreateUserDto);
-            return res.status(201).json(`Usuario creado con exito con el id: ${id}`);
-        } catch (error) {
-            throw new HttpException('Error al crear el usuario', HttpStatus.BAD_REQUEST);
-
+            const validate = await this.userService.CreateUser(CreateUserDto)
+            return res.status(201).json(validate)
+        }
+        catch (error) {
+            throw new HttpException('Error al crear el usuario', HttpStatus.NOT_FOUND);
         }
     }
     @UseGuards(AuthGuard)

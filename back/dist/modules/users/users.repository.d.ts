@@ -1,5 +1,5 @@
 import { Users } from "./users.entity";
-import { UpdateUserData } from "./usersDto/usersDto";
+import { CreateUserDto, UpdateUserData } from "./usersDto/usersDto";
 export declare class UsersRepository {
     private usersRepository;
     getUsers(): Promise<Users[]>;
@@ -15,7 +15,17 @@ export declare class UsersRepository {
         orders: import("../orders/orders.entity").Orders[];
     }>;
     getUserByEmail(email: string): Promise<Users>;
-    createUser(user: Users): Promise<Users>;
+    createUser(user: CreateUserDto): Promise<{
+        id: string;
+        name: string;
+        email: string;
+        phone: number;
+        country: string;
+        address: string;
+        city: string;
+        role: import("../auth/authRoles/roles.auth").Role;
+        orders: import("../orders/orders.entity").Orders[];
+    }>;
     uptadeUser(id: string, user: UpdateUserData): Promise<{
         id: string;
         name: string;

@@ -14,6 +14,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const users_entity_1 = require("./users.entity");
 const typeorm_2 = require("typeorm");
+const bcrypt = require("bcrypt");
 let UsersRepository = class UsersRepository {
     async getUsers() {
         const users = await this.usersRepository.find({
@@ -36,9 +37,21 @@ let UsersRepository = class UsersRepository {
         return user;
     }
     async createUser(user) {
-        const newUser = await this.usersRepository.create(user);
-        await this.usersRepository.save(newUser);
-        return newUser;
+        try {
+            const hassedPassword = await bcrypt.hash(user.password, 10);
+            if (hassedPassword) {
+                user.password = hassedPassword;
+                delete user.confirmPassword;
+                const newUser = await this.usersRepository.create(user);
+                if (newUser) {
+                    const { password, ...rest } = newUser;
+                    return rest;
+                }
+            }
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error al crear el usuario', common_1.HttpStatus.NOT_FOUND);
+        }
     }
     async uptadeUser(id, user) {
         const updatedUser = await this.getUserById(id);

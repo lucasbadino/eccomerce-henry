@@ -54,6 +54,21 @@ __decorate([
 ], CreateUserDto.prototype, "password", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
+        example: 'Example123!',
+        description: 'User password',
+        required: true
+    }),
+    (0, class_validator_1.IsStrongPassword)({
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+    }),
+    (0, class_validator_1.Length)(8, 15),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "confirmPassword", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
         name: 'address',
         description: 'user address must be not empty and must be a string with a length between 3 and 80 characters',
         example: '123 Main St'

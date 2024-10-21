@@ -8,16 +8,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthRepository = void 0;
 const common_1 = require("@nestjs/common");
 const bcrypt = require("bcrypt");
 const users_service_1 = require("../users/users.service");
 const jwt_1 = require("@nestjs/jwt");
+const typeorm_1 = require("@nestjs/typeorm");
+const users_entity_1 = require("../users/users.entity");
+const typeorm_2 = require("typeorm");
 let AuthRepository = class AuthRepository {
-    constructor(usersService, jwtService) {
+    constructor(usersService, jwtService, usersRepository) {
         this.usersService = usersService;
         this.jwtService = jwtService;
+        this.usersRepository = usersRepository;
     }
     async singin(LoginUserDto) {
         const { email, password } = LoginUserDto;
@@ -44,7 +51,7 @@ let AuthRepository = class AuthRepository {
             if (hassedPassword) {
                 user.password = hassedPassword;
                 delete user.confirmPassword;
-                const newUser = await this.usersService.CreateUser(user);
+                const newUser = await this.usersRepository.create(user);
                 if (newUser) {
                     const { password, ...rest } = newUser;
                     return rest;
@@ -59,7 +66,9 @@ let AuthRepository = class AuthRepository {
 exports.AuthRepository = AuthRepository;
 exports.AuthRepository = AuthRepository = __decorate([
     (0, common_1.Injectable)(),
+    __param(2, (0, typeorm_1.InjectRepository)(users_entity_1.Users)),
     __metadata("design:paramtypes", [users_service_1.UserService,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        typeorm_2.Repository])
 ], AuthRepository);
 //# sourceMappingURL=auth.repository.js.map

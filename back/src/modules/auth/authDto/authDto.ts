@@ -104,7 +104,7 @@ export class singupDto {
         }
     )
     @IsString()
-    role: string
+    role: Role
 }
 export class LoginUserDto extends PickType(singupDto, ['email', 'password']) { }
 

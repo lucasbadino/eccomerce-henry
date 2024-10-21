@@ -40,6 +40,21 @@ export class CreateUserDto {
     password: string
     @ApiProperty(
         {
+            example: 'Example123!',
+            description: 'User password',
+            required: true
+        }
+    )
+    @IsStrongPassword({
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+    })
+    @Length(8, 15)
+    confirmPassword: string
+    @ApiProperty(
+        {
             name: 'address',
             description: 'user address must be not empty and must be a string with a length between 3 and 80 characters',
             example: '123 Main St'

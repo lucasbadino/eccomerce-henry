@@ -43,12 +43,19 @@ let UserController = class UserController {
         }
     }
     async createUser(res, CreateUserDto) {
+        const email = await this.userService.getUserByEmail(CreateUserDto.email);
+        if (email) {
+            throw new common_1.HttpException('El email ya existe', common_1.HttpStatus.CONFLICT);
+        }
+        if (CreateUserDto.password !== CreateUserDto.confirmPassword) {
+            throw new common_1.HttpException('Las contraseñas no coinciden', common_1.HttpStatus.BAD_REQUEST);
+        }
         try {
-            const { id } = await this.userService.CreateUser(CreateUserDto);
-            return res.status(201).json(`Usuario creado con exito con el id: ${id}`);
+            const validate = await this.userService.CreateUser(CreateUserDto);
+            return res.status(201).json(validate);
         }
         catch (error) {
-            throw new common_1.HttpException('Error al crear el usuario', common_1.HttpStatus.BAD_REQUEST);
+            throw new common_1.HttpException('Error al crear el usuario', common_1.HttpStatus.NOT_FOUND);
         }
     }
     async updateUser(idNumber, UpdateUserData, res) {

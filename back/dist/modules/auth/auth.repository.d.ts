@@ -1,10 +1,13 @@
 import { UserService } from "../users/users.service";
 import { LoginUserDto, singupDto } from "./authDto/authDto";
 import { JwtService } from "@nestjs/jwt";
+import { Users } from "../users/users.entity";
+import { Repository } from "typeorm";
 export declare class AuthRepository {
     private readonly usersService;
     private readonly jwtService;
-    constructor(usersService: UserService, jwtService: JwtService);
+    private readonly usersRepository;
+    constructor(usersService: UserService, jwtService: JwtService, usersRepository: Repository<Users>);
     singin(LoginUserDto: LoginUserDto): Promise<{
         success: boolean;
         token: string;

@@ -3,12 +3,17 @@ import * as bcrypt from 'bcrypt';
 import { UserService } from "../users/users.service";
 import { LoginUserDto, singupDto } from "./authDto/authDto";
 import { JwtService } from "@nestjs/jwt";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Users } from "../users/users.entity";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class AuthRepository {
     constructor(
         private readonly usersService: UserService,
         private readonly jwtService: JwtService,
+        @InjectRepository(Users)
+        private readonly usersRepository: Repository<Users>
 
     ) { }
     async singin(LoginUserDto: LoginUserDto) {
@@ -36,7 +41,7 @@ export class AuthRepository {
             if (hassedPassword) {
                 user.password = hassedPassword
                 delete user.confirmPassword
-                const newUser = await this.usersService.CreateUser(user);
+                const newUser = await this.usersRepository.create(user);
                 if (newUser) {
                     const { password, ...rest } = newUser;
                     return rest

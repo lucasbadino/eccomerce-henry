@@ -2,8 +2,8 @@ import { HttpException, HttpStatus, Injectable, NotFoundException } from "@nestj
 import { InjectRepository } from "@nestjs/typeorm";
 import { Users } from "./users.entity";
 import { Repository } from "typeorm";
-import { UpdateUserData } from "./usersDto/usersDto";
-
+import { CreateUserDto, UpdateUserData } from "./usersDto/usersDto";
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsersRepository {
 
@@ -32,10 +32,21 @@ export class UsersRepository {
         const user = await this.usersRepository.findOne({ where: { email } })
         return user
     }
-    async createUser(user: Users) {
-        const newUser = await this.usersRepository.create(user);
-        await this.usersRepository.save(newUser);
-        return newUser
+    async createUser(user: CreateUserDto) {
+        try {
+            const hassedPassword = await bcrypt.hash(user.password, 10);
+            if (hassedPassword) {
+                user.password = hassedPassword
+                delete user.confirmPassword
+                const newUser = await this.usersRepository.create(user);
+                if (newUser) {
+                    const { password, ...rest } = newUser;
+                    return rest
+                }
+            }
+        } catch (error) {
+            throw new HttpException('Error al crear el usuario', HttpStatus.NOT_FOUND);
+        }
     }
     async uptadeUser(id: string, user: UpdateUserData) {
         const updatedUser = await this.getUserById(id)
