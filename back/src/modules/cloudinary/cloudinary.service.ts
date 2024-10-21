@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { v2 as cloudinary } from 'cloudinary';
 import * as toString from 'buffer-to-stream';
-import { ProductService } from 'src/modules/products/products.service';
+import { ProductService } from '../../modules/products/products.service';
 
 @Injectable()
 export class CloudinaryService {

@@ -26,9 +26,12 @@ let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
     }
-    async getProducts(res, limit = 5, page = 1) {
+    async getProducts(res) {
         try {
-            const products = await this.productService.getPruducts(page, limit);
+            const products = await this.productService.getProducts();
+            if (!res) {
+                return products;
+            }
             return res.status(200).send(products);
         }
         catch (error) {
@@ -38,6 +41,9 @@ let ProductController = class ProductController {
     async getProductsById(id, res) {
         try {
             const product = await this.productService.getPruductsById(id);
+            if (!res) {
+                return product;
+            }
             return res.status(200).send(product);
         }
         catch (error) {
@@ -71,6 +77,9 @@ let ProductController = class ProductController {
     async deleteProduct(id, res) {
         try {
             const deletedProduct = await this.productService.deleteProduct(id);
+            if (!res) {
+                return deletedProduct;
+            }
             return res.status(200).json({
                 message: 'Producto eliminado con exito',
                 producto: deletedProduct
@@ -84,17 +93,15 @@ let ProductController = class ProductController {
 exports.ProductController = ProductController;
 __decorate([
     (0, common_1.Get)(),
-    openapi.ApiResponse({ status: 200 }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Res)()),
-    __param(1, (0, common_1.Query)("limit")),
-    __param(2, (0, common_1.Query)("page")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Number, Number]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "getProducts", null);
 __decorate([
     (0, common_1.Get)(":id"),
-    openapi.ApiResponse({ status: 200 }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -125,7 +132,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Delete)(":id"),
-    openapi.ApiResponse({ status: 200 }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)("id", common_1.ParseUUIDPipe)),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

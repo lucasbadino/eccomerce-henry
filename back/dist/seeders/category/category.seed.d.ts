@@ -1,4 +1,4 @@
-import { Categories } from "src/modules/categories/categories.entity";
+import { Categories } from "../../modules/categories/categories.entity";
 import { Repository } from "typeorm";
 export declare class CategorySeed {
     private categoryRepository;

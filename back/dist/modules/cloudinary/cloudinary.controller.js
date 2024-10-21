@@ -17,8 +17,8 @@ const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const cloudinary_service_1 = require("./cloudinary.service");
-const products_service_1 = require("../products/products.service");
-const auth_guard_1 = require("../auth/authGuard/auth.guard");
+const products_service_1 = require("../../modules/products/products.service");
+const auth_guard_1 = require("../../modules/auth/authGuard/auth.guard");
 const swagger_1 = require("@nestjs/swagger");
 let CloudinaryController = class CloudinaryController {
     constructor(cloudinaryService, productService) {

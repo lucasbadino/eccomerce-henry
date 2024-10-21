@@ -10,7 +10,7 @@ export class ProductsRepository {
     @InjectRepository(Products)
     private productsRepository: Repository<Products>;
 
-    async getProducts(page: number, limit: number) {
+    async getProducts() {
         const products = await this.productsRepository.find();
         return products;
 

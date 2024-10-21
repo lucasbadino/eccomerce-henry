@@ -15,6 +15,10 @@ const categories_entity_1 = require("../modules/categories/categories.entity");
 const products_entity_1 = require("../modules/products/products.entity");
 const users_seed_1 = require("./users/users.seed");
 const users_entity_1 = require("../modules/users/users.entity");
+const auth_service_1 = require("../modules/auth/auth.service");
+const auth_repository_1 = require("../modules/auth/auth.repository");
+const users_service_1 = require("../modules/users/users.service");
+const users_repository_1 = require("../modules/users/users.repository");
 let SeedsModule = class SeedsModule {
 };
 exports.SeedsModule = SeedsModule;
@@ -23,7 +27,7 @@ exports.SeedsModule = SeedsModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forFeature([categories_entity_1.Categories, products_entity_1.Products, users_entity_1.Users]),
         ],
-        providers: [category_seed_1.CategorySeed, products_seed_1.ProductsSeed, users_seed_1.UsersSeed],
+        providers: [category_seed_1.CategorySeed, products_seed_1.ProductsSeed, users_seed_1.UsersSeed, auth_service_1.AuthService, auth_repository_1.AuthRepository, users_service_1.UserService, users_repository_1.UsersRepository],
         exports: [category_seed_1.CategorySeed, products_seed_1.ProductsSeed, users_seed_1.UsersSeed]
     })
 ], SeedsModule);

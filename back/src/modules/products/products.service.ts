@@ -8,8 +8,8 @@ export class ProductService {
     
 
     constructor(private readonly productsRepository: ProductsRepository) { }
-    getPruducts(page: number, limit: number) {
-        return this.productsRepository.getProducts(page, limit);
+    getProducts() {
+        return this.productsRepository.getProducts();
     }
     getPruductsById(id: string) {
         return this.productsRepository.getProductsById(id);

@@ -2,8 +2,8 @@ import { Controller, FileTypeValidator, HttpException, HttpStatus, MaxFileSizeVa
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from './cloudinary.service';
 import { Response } from 'express';
-import { ProductService } from 'src/modules/products/products.service';
-import { AuthGuard } from 'src/modules/auth/authGuard/auth.guard';
+import { ProductService } from '../../modules/products/products.service';
+import { AuthGuard } from '../../modules/auth/authGuard/auth.guard';
 import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Upload image')
 @Controller('files/uploadImage')

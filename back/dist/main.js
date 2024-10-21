@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
-const logger_middleware_1 = require("./middlewares/logger.middleware");
 const category_seed_1 = require("./seeders/category/category.seed");
 const products_seed_1 = require("./seeders/products/products.seed");
 const common_1 = require("@nestjs/common");
@@ -10,6 +9,7 @@ const auth0_config_1 = require("./config/auth0.config");
 const express_openid_connect_1 = require("express-openid-connect");
 const swagger_1 = require("@nestjs/swagger");
 const users_seed_1 = require("./seeders/users/users.seed");
+const logger_interceptor_1 = require("./interceptors/logger.interceptor");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.useGlobalPipes(new common_1.ValidationPipe({
@@ -27,7 +27,7 @@ async function bootstrap() {
             });
         }
     }));
-    app.use(logger_middleware_1.loggerGlobal);
+    app.useGlobalInterceptors(new logger_interceptor_1.LoggerInterceptor());
     app.use((0, express_openid_connect_1.auth)(auth0_config_1.config));
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,

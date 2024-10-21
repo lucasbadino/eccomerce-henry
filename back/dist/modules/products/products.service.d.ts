@@ -4,7 +4,7 @@ import { CreateProductDto, UpdateProductDto } from "./productsDto/productsDto";
 export declare class ProductService {
     private readonly productsRepository;
     constructor(productsRepository: ProductsRepository);
-    getPruducts(page: number, limit: number): Promise<Products[]>;
+    getProducts(): Promise<Products[]>;
     getPruductsById(id: string): Promise<Products>;
     createProduct(product: CreateProductDto): Promise<Products>;
     deleteProduct(id: string): Promise<Products>;

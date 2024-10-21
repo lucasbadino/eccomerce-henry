@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Role } from "src/modules/auth/authRoles/roles.auth";
-import { Users } from "src/modules/users/users.entity";
+import { AuthService } from "../../modules/auth/auth.service";
+import { Role } from "../../modules/auth/authRoles/roles.auth";
+import { Users } from "../../modules/users/users.entity";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -9,7 +10,8 @@ import { Repository } from "typeorm";
 export class UsersSeed {
     constructor(
         @InjectRepository(Users)
-        private readonly usersRepository: Repository<Users>
+        private readonly usersRepository: Repository<Users>,
+        private readonly authService: AuthService
     ) { }
 
     async preloadUsers() {
@@ -19,18 +21,17 @@ export class UsersSeed {
         const promises = users.map(async user => {
             const existingUser = await this.usersRepository.findOne({ where: { email: user.email } });
             if (!existingUser) {
-                const newUser = this.usersRepository.create({
+                const newUser = this.authService.singup({
                     name: user.name,
                     email: user.email,
                     password: user.name + "A123_",
+                    confirmPassword: user.name + "A123_",
                     address: user.address.street,
                     phone: user.phone.replace(/\D/g, '').substring(0, 10),
                     country: "Argentina",
                     city: user.address.city,
                     role: Role.Admin
                 });
-                await this.usersRepository.save(newUser);
-
             }
         });
         await Promise.all(promises);

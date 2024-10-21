@@ -25,7 +25,6 @@ let UsersRepository = class UsersRepository {
     }
     async getUserById(id) {
         const user = await this.usersRepository.findOne({ where: { id } });
-        console.log(user);
         if (!user) {
             throw new common_1.NotFoundException("User not found");
         }

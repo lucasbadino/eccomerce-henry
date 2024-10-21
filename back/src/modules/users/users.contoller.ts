@@ -4,10 +4,10 @@ import { CreateUserDto, UpdateUserData } from "./usersDto/usersDto";
 import { Response } from "express";
 import { AuthGuard } from "../auth/authGuard/auth.guard";
 import { Users } from "./users.entity";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { RoleGuard } from "../auth/authGuard/role.guard";
 import { Roles } from "../auth/authRoles/roles.decorator";
 import { Role } from "../auth/authRoles/roles.auth";
-import { RoleGuard } from "../auth/authGuard/role.guard";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @ApiTags('Users')
 @ApiBearerAuth()

@@ -4,11 +4,11 @@ import { AuthController } from "./auth.controller";
 import { AuthRepository } from "./auth.repository";
 import { UserModule } from "../users/users.module";
 
-
 @Module({
     providers: [AuthService, AuthRepository],
     controllers: [AuthController],
     imports: [UserModule],
+    exports: [AuthService,AuthRepository]
 
 })
 export class AuthModule {}

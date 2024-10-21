@@ -20,6 +20,7 @@ exports.AuthModule = AuthModule = __decorate([
         providers: [auth_service_1.AuthService, auth_repository_1.AuthRepository],
         controllers: [auth_controller_1.AuthController],
         imports: [users_module_1.UserModule],
+        exports: [auth_service_1.AuthService, auth_repository_1.AuthRepository]
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map

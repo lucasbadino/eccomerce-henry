@@ -13,22 +13,25 @@ export class ProductController {
     constructor(private readonly productService: ProductService) { }
     @Get()
     async getProducts(
-        @Res() res: Response,
-        @Query("limit") limit: number = 5,
-        @Query("page") page: number = 1,
-
+        @Res() res?: Response,
     ) {
         try {
-            const products = await this.productService.getPruducts(page, limit);
+            const products = await this.productService.getProducts();
+            if (!res) {
+                return products
+            }
             return res.status(200).send(products);
         } catch (error) {
             throw new HttpException('Error al obtener los productos', HttpStatus.NOT_FOUND);
         }
     }
     @Get(":id")
-    async getProductsById(@Param("id", ParseUUIDPipe) id: string, @Res() res: Response) {
+    async getProductsById(@Param("id", ParseUUIDPipe) id: string, @Res() res?: Response) {
         try {
             const product = await this.productService.getPruductsById(id);
+            if (!res) {
+                return product
+            }
             return res.status(200).send(product);
         } catch (error) {
             throw new HttpException('Error al obtener el producto', HttpStatus.NOT_FOUND);
@@ -63,9 +66,12 @@ export class ProductController {
     }
     @UseGuards(AuthGuard)
     @Delete(":id")
-    async deleteProduct(@Param("id", ParseUUIDPipe) id: string, @Res() res: Response) {
+    async deleteProduct(@Param("id", ParseUUIDPipe) id: string, @Res() res?: Response) {
         try {
             const deletedProduct = await this.productService.deleteProduct(id);
+            if (!res) {
+                return deletedProduct
+            }
             return res.status(200).json({
                 message: 'Producto eliminado con exito',
                 producto: deletedProduct

@@ -11,7 +11,7 @@ const common_1 = require("@nestjs/common");
 const cloudinary_controller_1 = require("./cloudinary.controller");
 const cloudinary_service_1 = require("./cloudinary.service");
 const cloudinary_config_1 = require("../../config/cloudinary.config");
-const products_module_1 = require("../products/products.module");
+const products_module_1 = require("../../modules/products/products.module");
 let CloudinaryModule = class CloudinaryModule {
 };
 exports.CloudinaryModule = CloudinaryModule;

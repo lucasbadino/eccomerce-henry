@@ -1,6 +1,6 @@
 import { CloudinaryService } from './cloudinary.service';
 import { Response } from 'express';
-import { ProductService } from 'src/modules/products/products.service';
+import { ProductService } from '../../modules/products/products.service';
 export declare class CloudinaryController {
     private readonly cloudinaryService;
     private readonly productService;

@@ -15,7 +15,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const products_entity_1 = require("./products.entity");
 const typeorm_2 = require("typeorm");
 let ProductsRepository = class ProductsRepository {
-    async getProducts(page, limit) {
+    async getProducts() {
         const products = await this.productsRepository.find();
         return products;
     }

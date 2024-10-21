@@ -108,6 +108,15 @@ __decorate([
     (0, class_validator_1.Length)(5, 20),
     __metadata("design:type", String)
 ], singupDto.prototype, "city", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'user',
+        description: 'User role',
+        default: 'user',
+    }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], singupDto.prototype, "role", void 0);
 class LoginUserDto extends (0, swagger_1.PickType)(singupDto, ['email', 'password']) {
 }
 exports.LoginUserDto = LoginUserDto;

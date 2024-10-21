@@ -1,4 +1,4 @@
-import { ProductService } from 'src/modules/products/products.service';
+import { ProductService } from '../../modules/products/products.service';
 export declare class CloudinaryService {
     private readonly productsService;
     constructor(productsService: ProductService);

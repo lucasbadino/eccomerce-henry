@@ -17,10 +17,10 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const usersDto_1 = require("./usersDto/usersDto");
 const auth_guard_1 = require("../auth/authGuard/auth.guard");
+const swagger_1 = require("@nestjs/swagger");
+const role_guard_1 = require("../auth/authGuard/role.guard");
 const roles_decorator_1 = require("../auth/authRoles/roles.decorator");
 const roles_auth_1 = require("../auth/authRoles/roles.auth");
-const role_guard_1 = require("../auth/authGuard/role.guard");
-const swagger_1 = require("@nestjs/swagger");
 let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -54,7 +54,6 @@ let UserController = class UserController {
     async updateUser(idNumber, UpdateUserData, res) {
         try {
             const user = await this.userService.getUserById(idNumber);
-            console.log(user);
         }
         catch (error) {
             throw new common_1.HttpException('Usuario no encontrado', common_1.HttpStatus.NOT_FOUND);
@@ -88,6 +87,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUsers", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),

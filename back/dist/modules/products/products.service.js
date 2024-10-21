@@ -16,8 +16,8 @@ let ProductService = class ProductService {
     constructor(productsRepository) {
         this.productsRepository = productsRepository;
     }
-    getPruducts(page, limit) {
-        return this.productsRepository.getProducts(page, limit);
+    getProducts() {
+        return this.productsRepository.getProducts();
     }
     getPruductsById(id) {
         return this.productsRepository.getProductsById(id);

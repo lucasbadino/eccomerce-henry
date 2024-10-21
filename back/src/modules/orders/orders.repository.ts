@@ -4,7 +4,7 @@ import { Orders } from "./orders.entity";
 import { Repository } from "typeorm";
 import { Users } from "../users/users.entity";
 import { Products } from "../products/products.entity";
-import { OrderDetails } from "src/modules/ordersDetails/orderDetails.entity";
+import { OrderDetails } from "../../modules/ordersDetails/orderDetails.entity";
 import { ProductService } from "../products/products.service";
 
 

@@ -95,6 +95,15 @@ export class singupDto {
     @IsString()
     @Length(5, 20)
     city: string
+    @ApiProperty(
+        {
+            example: 'user',
+            description: 'User role',
+            default: 'user',
+        }
+    )
+    @IsString()
+    role: string
 }
 export class LoginUserDto extends PickType(singupDto, ['email', 'password']) { }
 

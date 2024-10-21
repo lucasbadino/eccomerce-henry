@@ -19,7 +19,7 @@ const orders_entity_1 = require("./orders.entity");
 const typeorm_2 = require("typeorm");
 const users_entity_1 = require("../users/users.entity");
 const products_entity_1 = require("../products/products.entity");
-const orderDetails_entity_1 = require("../ordersDetails/orderDetails.entity");
+const orderDetails_entity_1 = require("../../modules/ordersDetails/orderDetails.entity");
 let OrdersRepository = class OrdersRepository {
     constructor(usersRepository, ordersRepository, productsRepository, orderDetailsRepository) {
         this.usersRepository = usersRepository;

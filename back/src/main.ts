@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { loggerGlobal } from './middlewares/logger.middleware';
 import { CategorySeed } from './seeders/category/category.seed';
 import { ProductsSeed } from './seeders/products/products.seed';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
@@ -8,6 +7,7 @@ import { config as auth0Config } from './config/auth0.config'
 import { auth } from 'express-openid-connect';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { UsersSeed } from './seeders/users/users.seed';
+import { LoggerInterceptor } from './interceptors/logger.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,7 +28,7 @@ async function bootstrap() {
       }
     })
   )
-  app.use(loggerGlobal);
+  app.useGlobalInterceptors(new LoggerInterceptor());
   app.use(auth(auth0Config))
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
